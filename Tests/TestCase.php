@@ -2,11 +2,13 @@
 
 namespace Leogout\Bundle\SeoBundle\Tests;
 
+use PHPUnit\Framework\TestCase as AbstractTestCase;
+
 /**
  * Description of TestCase.
  *
  * @author: leogout
  */
-class TestCase extends \PHPUnit_Framework_TestCase
+class TestCase extends AbstractTestCase
 {
 }
