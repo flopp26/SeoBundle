@@ -15,6 +15,7 @@
     }
   ],
   "require":      {
+    "php": "~7",
     "symfony/framework-bundle": "~2.8|~3.4|~4.0"
   },
   "require-dev":  {
