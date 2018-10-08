@@ -42,4 +42,14 @@ abstract class AbstractSeoConfigurator
 
         return $this->config[$name];
     }
+
+    /**
+     * @param string $name
+     *
+     * @return bool
+     */
+    protected function hasConfig($name)
+    {
+        return array_key_exists($name, $this->config);
+    }
 }

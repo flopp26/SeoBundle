@@ -22,68 +22,68 @@ class OgSeoConfigurator extends AbstractSeoConfigurator
             throw new InvalidSeoGeneratorException(__CLASS__, OgSeoGenerator::class, get_class($generator));
         }
         
-        if (null !== $siteName = $this->getConfig('site_name')) {
-            $generator->setSiteName($siteName);
+        if ($this->hasConfig('site_name')) {
+            $generator->setSiteName($this->getConfig('site_name'));
         }
-        if (null !== $title = $this->getConfig('title')) {
-            $generator->setTitle($title);
+        if ($this->hasConfig('title')) {
+            $generator->setTitle($this->getConfig('title'));
         }
-        if (null !== $description = $this->getConfig('description')) {
-            $generator->setDescription($description);
+        if ($this->hasConfig('description')) {
+            $generator->setDescription($this->getConfig('description'));
         }
-        if (null !== $image = $this->getConfig('image')) {
-            $generator->setImage($image);
+        if ($this->hasConfig('image')) {
+            $generator->setImage($this->getConfig('image'));
         }
-        if (null !== $imageType = $this->getConfig('image_type')) {
-            $generator->setImageType($imageType);
+        if ($this->hasConfig('image_type')) {
+            $generator->setImageType($this->getConfig('image_type'));
         }
-        if (null !== $imageWidth = $this->getConfig('image_width')) {
-            $generator->setImageWidth($imageWidth);
+        if ($this->hasConfig('image_width')) {
+            $generator->setImageWidth($this->getConfig('image_width'));
         }
-        if (null !== $imageHeight = $this->getConfig('image_height')) {
-            $generator->setImageHeight($imageHeight);
+        if ($this->hasConfig('image_height')) {
+            $generator->setImageHeight($this->getConfig('image_height'));
         }
-        if (null !== $imageSecureUrl = $this->getConfig('image_secure_url')) {
-            $generator->setImageSecureUrl($imageSecureUrl);
+        if ($this->hasConfig('image_secure_url')) {
+            $generator->setImageSecureUrl($this->getConfig('image_secure_url'));
         }
-        if (null !== $audio = $this->getConfig('audio')) {
-            $generator->setAudio($audio);
+        if ($this->hasConfig('audio')) {
+            $generator->setAudio($this->getConfig('audio'));
         }
-        if (null !== $audioType = $this->getConfig('audio_type')) {
-            $generator->setAudioType($audioType);
+        if ($this->hasConfig('audio_type')) {
+            $generator->setAudioType($this->getConfig('audio_type'));
         }
-        if (null !== $audioSecureUrl = $this->getConfig('audio_secure_url')) {
-            $generator->setAudioSecureUrl($audioSecureUrl);
+        if ($this->hasConfig('audio_secure_url')) {
+            $generator->setAudioSecureUrl($this->getConfig('audio_secure_url'));
         }
-        if (null !== $video = $this->getConfig('video')) {
-            $generator->setVideo($video);
+        if ($this->hasConfig('video')) {
+            $generator->setVideo($this->getConfig('video'));
         }
-        if (null !== $videoType = $this->getConfig('video_type')) {
-            $generator->setVideoType($videoType);
+        if ($this->hasConfig('video_type')) {
+            $generator->setVideoType($this->getConfig('video_type'));
         }
-        if (null !== $videoWidth = $this->getConfig('video_width')) {
-            $generator->setVideoWidth($videoWidth);
+        if ($this->hasConfig('video_width')) {
+            $generator->setVideoWidth($this->getConfig('video_width'));
         }
-        if (null !== $videoHeight = $this->getConfig('video_height')) {
-            $generator->setVideoHeight($videoHeight);
+        if ($this->hasConfig('video_height')) {
+            $generator->setVideoHeight($this->getConfig('video_height'));
         }
-        if (null !== $videoSecureUrl = $this->getConfig('video_secure_url')) {
-            $generator->setVideoSecureUrl($videoSecureUrl);
+        if ($this->hasConfig('video_secure_url')) {
+            $generator->setVideoSecureUrl($this->getConfig('video_secure_url'));
         }
-        if (null !== $type = $this->getConfig('type')) {
-            $generator->setType($type);
+        if ($this->hasConfig('type')) {
+            $generator->setType($this->getConfig('type'));
         }
-        if (null !== $url = $this->getConfig('url')) {
-            $generator->setUrl($url);
+        if ($this->hasConfig('url')) {
+            $generator->setUrl($this->getConfig('url'));
         }
-        if (null !== $type = $this->getConfig('determiner')) {
-            $generator->setDeterminer($type);
+        if ($this->hasConfig('determiner')) {
+            $generator->setDeterminer($this->getConfig('determiner'));
         }
-        if (null !== $locale = $this->getConfig('locale')) {
-            $generator->setLocale($locale);
+        if ($this->hasConfig('locale')) {
+            $generator->setLocale($this->getConfig('locale'));
         }
-        if (null !== $alternateLocales = $this->getConfig('alternate_locales')) {
-            $generator->setAlternateLocales($type);
+        if ($this->hasConfig('alternate_locales')) {
+            $generator->setAlternateLocales($this->getConfig('alternate_locales'));
         }
     }
 }

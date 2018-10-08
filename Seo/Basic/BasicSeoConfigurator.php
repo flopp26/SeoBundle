@@ -21,26 +21,27 @@ class BasicSeoConfigurator extends AbstractSeoConfigurator
         if (!($generator instanceof BasicSeoGenerator)) {
             throw new InvalidSeoGeneratorException(__CLASS__, BasicSeoGenerator::class, get_class($generator));
         }
-        if (null !== $title = $this->getConfig('title')) {
-            $generator->setTitle($title);
+        if ($this->hasConfig('title')) {
+            $generator->setTitle($this->getConfig('title'));
         }
-        if (null !== $description = $this->getConfig('description')) {
-            $generator->setDescription($description);
+        if ($this->hasConfig('description')) {
+            $generator->setDescription($this->getConfig('description'));
         }
-        if (null !== $keywords = $this->getConfig('keywords')) {
-            $generator->setKeywords($keywords);
+        if ($this->hasConfig('keywords')) {
+            $generator->setKeywords($this->getConfig('keywords'));
         }
-        if (null !== $robots = $this->getConfig('robots')) {
-            $generator->setRobots($robots['index'], $robots['follow']);
+        if ($this->hasConfig('robots')) {
+            $robots = (array) $this->getConfig('robots');
+            $generator->setRobots($robots['index'] ?? true, $robots['follow'] ?? true);
         }
-        if (null !== $canonical = $this->getConfig('canonical')) {
-            $generator->setCanonical($canonical);
+        if ($this->hasConfig('canonical')) {
+            $generator->setCanonical($this->getConfig('canonical'));
         }
-        if (null !== $canonical = $this->getConfig('paginate_previous')) {
-            $generator->setPreviousUrl($canonical);
+        if ($this->hasConfig('paginate_previous')) {
+            $generator->setPreviousUrl($this->getConfig('paginate_previous'));
         }
-        if (null !== $canonical = $this->getConfig('paginate_next')) {
-            $generator->setNextUrl($canonical);
+        if ($this->hasConfig('paginate_next')) {
+            $generator->setNextUrl($this->getConfig('paginate_next'));
         }
     }
 }

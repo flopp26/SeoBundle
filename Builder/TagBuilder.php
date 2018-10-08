@@ -132,7 +132,7 @@ class TagBuilder implements RenderableInterface
         $tags = [];
 
         if (null !== $this->title) {
-            array_push($tags, $this->title);
+            $tags = array_merge($tags, ['title' => $this->title]);
         }
         if (count($this->metas) > 0) {
             $tags = array_merge($tags, $this->metas);

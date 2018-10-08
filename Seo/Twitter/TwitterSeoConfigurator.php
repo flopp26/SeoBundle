@@ -21,20 +21,20 @@ class TwitterSeoConfigurator extends AbstractSeoConfigurator
         if (!($generator instanceof TwitterSeoGenerator)) {
             throw new InvalidSeoGeneratorException(__CLASS__, TwitterSeoGenerator::class, get_class($generator));
         }
-        if (null !== $title = $this->getConfig('title')) {
-            $generator->setTitle($title);
+        if ($this->hasConfig('title')) {
+            $generator->setTitle($this->getConfig('title'));
         }
-        if (null !== $description = $this->getConfig('description')) {
-            $generator->setDescription($description);
+        if ($this->getConfig('description')) {
+            $generator->setDescription($this->getConfig('description'));
         }
-        if (null !== $image = $this->getConfig('image')) {
-            $generator->setImage($image);
+        if ($this->getConfig('image')) {
+            $generator->setImage($this->getConfig('image'));
         }
-        if (null !== $card = $this->getConfig('card')) {
-            $generator->setCard($card);
+        if ($this->getConfig('card')) {
+            $generator->setCard($this->getConfig('card'));
         }
-        if (null !== $site = $this->getConfig('site')) {
-            $generator->setSite($site);
+        if ($this->getConfig('site')) {
+            $generator->setSite($this->getConfig('site'));
         }
     }
 }
