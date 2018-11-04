@@ -110,11 +110,21 @@ class BasicSeoGenerator extends AbstractSeoGenerator
      */
     public function setCanonical($url)
     {
-        $this->tagBuilder->addLink('canonical')
-            ->setHref((string) $url)
-            ->setRel('canonical');
+        if ($url) {
+            $this->tagBuilder->addLink('canonical')
+                ->setHref((string) $url)
+                ->setRel('canonical');
+        }
 
         return $this;
+    }
+
+    /**
+     * @return \Leogout\Bundle\SeoBundle\Model\LinkTag|null
+     */
+    public function getCanonical()
+    {
+        return $this->tagBuilder->getLink('canonical');
     }
 
     /**

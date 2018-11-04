@@ -2,6 +2,7 @@
 
 namespace Leogout\Bundle\SeoBundle\Twig;
 
+use Leogout\Bundle\SeoBundle\Builder\TagBuilder;
 use Leogout\Bundle\SeoBundle\Model\RenderableInterface;
 use Leogout\Bundle\SeoBundle\Provider\SeoGeneratorProvider;
 
@@ -13,17 +14,23 @@ use Leogout\Bundle\SeoBundle\Provider\SeoGeneratorProvider;
 class SeoExtension extends \Twig_Extension
 {
     /**
+     * @var TagBuilder
+     */
+    private $tagBuilder;
+    /**
      * @var SeoGeneratorProvider
      */
-    protected $generatorProvider;
+    private $generatorProvider;
 
     /**
      * SeoExtension constructor.
      *
      * @param SeoGeneratorProvider $generatorProvider
+     * @param TagBuilder $tagBuilder
      */
-    public function __construct(SeoGeneratorProvider $generatorProvider)
+    public function __construct(SeoGeneratorProvider $generatorProvider, TagBuilder $tagBuilder)
     {
+        $this->tagBuilder = $tagBuilder;
         $this->generatorProvider = $generatorProvider;
     }
 
@@ -44,15 +51,9 @@ class SeoExtension extends \Twig_Extension
      */
     public function seo($alias = null)
     {
-        if (null !== $alias) {
-            return $this->generatorProvider->get($alias)->render();
+        foreach ($this->generatorProvider->getAll() as $configurator) {
         }
-
-        return implode(PHP_EOL,
-            array_map(function (RenderableInterface $tag) {
-                return $tag->render();
-            }, $this->generatorProvider->getAll())
-        );
+        return $this->tagBuilder->render();
     }
 
     /**

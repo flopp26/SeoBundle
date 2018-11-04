@@ -131,12 +131,16 @@ class LinkTag implements RenderableInterface
      */
     public function render()
     {
-        $href = $this->sprintfIfNotNull('href="%s" ', $this->getHref());
-        $rel = $this->sprintfIfNotNull('rel="%s" ', $this->getRel());
-        $type = $this->sprintfIfNotNull('type="%s" ', $this->getType());
-        $title = $this->sprintfIfNotNull('title="%s" ', $this->getTitle());
+        if (!empty($this->getHref())) {
+            $href = $this->sprintfIfNotNull('href="%s" ', $this->getHref());
+            $rel = $this->sprintfIfNotNull('rel="%s" ', $this->getRel());
+            $type = $this->sprintfIfNotNull('type="%s" ', $this->getType());
+            $title = $this->sprintfIfNotNull('title="%s" ', $this->getTitle());
 
-        return sprintf('<link %s%s%s%s/>', $href, $rel, $type, $title);
+            return sprintf('<link %s%s%s%s/>', $href, $rel, $type, $title);
+        }
+
+        return '';
     }
 
     /**
