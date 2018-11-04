@@ -19,6 +19,9 @@ class TagBuilderTest extends TestCase
      */
     protected $tagBuilder;
 
+    /**
+     * Setup test
+     */
     protected function setUp()
     {
         $this->tagBuilder = new TagBuilder(new TagFactory());
