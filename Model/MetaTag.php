@@ -140,7 +140,7 @@ class MetaTag implements RenderableInterface
     public function render()
     {
         $tagContent = $this->getContent();
-        if ($tagContent === null) {
+        if ($tagContent === null || $tagContent === '' || $tagContent === []) {
             return '';
         }
 

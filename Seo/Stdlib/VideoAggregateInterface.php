@@ -5,7 +5,7 @@ namespace Leogout\Bundle\SeoBundle\Seo\Stdlib;
 /**
  * Interface VideoAwareInterface
  *
- * @author Daan Biesterbos https://www.linkedin.com/in/daan-biesterbos
+ * @author Daan Biesterbos https://www.linkedin.com/in/daanbiesterbos
  */
 interface VideoAggregateInterface
 {
