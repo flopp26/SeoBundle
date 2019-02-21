@@ -1,5 +1,6 @@
 {
-  "name":         "leadtech/seo-bundle",
+  "name":         "flopp26/seo-bundle",
+  "fork-from":    "leadtech/seo-bundle",
   "description":  "A Symfony bundle to generate SEO meta tags.",
   "keywords":     ["seo"],
   "type":         "symfony-bundle",
