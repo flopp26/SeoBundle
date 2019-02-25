@@ -13,6 +13,16 @@ use Leogout\Bundle\SeoBundle\Model\RenderableInterface;
 abstract class AbstractSeoGenerator implements RenderableInterface
 {
     /**
+     * @var string
+     */
+    protected $suffix;
+
+    /**
+     * @var string
+     */
+    protected $separator;
+    
+    /**
      * @var TagBuilder
      */
     protected $tagBuilder;
