@@ -170,7 +170,45 @@ class BasicSeoGenerator extends AbstractSeoGenerator
     {
         return $this->tagBuilder->getLink('nextUrl');
     }
+    
+    /**
+     * @param $suffix
+     * @return $this
+     */
+    public function setSuffix($suffix)
+    {
+        $this->suffix = $suffix;
 
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSuffix()
+    {
+        return $this->suffix;
+    }
+
+    /**
+     * @param $separator
+     * @return $this
+     */
+    public function setSeparator($separator)
+    {
+        $this->separator = $separator;
+
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSeparator()
+    {
+        return $this->separator;
+    }
+    
     /**
      * Generate seo tags from given resource.
      *
