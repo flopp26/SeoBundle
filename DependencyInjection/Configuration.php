@@ -40,6 +40,8 @@ class Configuration implements ConfigurationInterface
                 ->scalarNode('title')->end()
                 ->scalarNode('description')->end()
                 ->scalarNode('image')->end()
+                ->scalarNode('suffix')->end()
+                ->scalarNode('separator')->end()
             ->end();
     }
 
