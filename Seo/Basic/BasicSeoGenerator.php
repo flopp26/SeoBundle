@@ -29,7 +29,7 @@ class BasicSeoGenerator extends AbstractSeoGenerator
             $content = sprintf('%s %s %s', $content, $this->getSeparator(), $this->getSuffix());
         }
 
-        $this->tagBuilder->setTitle($content);
+        $this->tagBuilder->setTitle(trim($content));
 
         return $this;
     }
