@@ -7,6 +7,7 @@ use Leogout\Bundle\SeoBundle\Model\LinkTag;
 use Leogout\Bundle\SeoBundle\Model\MetaTag;
 use Leogout\Bundle\SeoBundle\Model\RenderableInterface;
 use Leogout\Bundle\SeoBundle\Model\TitleTag;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * Description of TagBuilder.
@@ -19,6 +20,11 @@ class TagBuilder implements RenderableInterface
      * @var TagFactory
      */
     protected $tagFactory;
+    
+    /**
+     * @var TranslatorInterface 
+     */
+    protected $translator;
 
     /**
      * @var TitleTag
@@ -40,11 +46,20 @@ class TagBuilder implements RenderableInterface
      *
      * @param TagFactory $tagFactory
      */
-    public function __construct(TagFactory $tagFactory)
+    public function __construct(TagFactory $tagFactory, TranslatorInterface $translator)
     {
         $this->tagFactory = $tagFactory;
+        $this->translator = $translator;
     }
 
+    /**
+     * @return TranslatorInterface
+     */
+    public function getTranslator()
+    {
+        return $this->translator;
+    }
+    
     /**
      * @param string $title
      *
