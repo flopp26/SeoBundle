@@ -29,7 +29,7 @@ class TagFactory
      */
     public function createTitle()
     {
-        $titleTag = new TitleTag();
+        $titleTag = new TitleTag($this->translator);
 
         return $titleTag;
     }
@@ -39,7 +39,7 @@ class TagFactory
      */
     public function createMeta()
     {
-        $metaTag = new MetaTag();
+        $metaTag = new MetaTag($this->translator);
 
         return $metaTag;
     }
