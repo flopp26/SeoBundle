@@ -13,6 +13,7 @@
         </service>
         <service id="leogout_seo.tag_factory" class="Leogout\Bundle\SeoBundle\Factory\TagFactory">
             <argument id="leogout_seo.translator" type="service"/>
+            <argument id="request_stack" type="service"/>
         </service>
         <service id="leogout_seo.builder" class="Leogout\Bundle\SeoBundle\Builder\TagBuilder" shared="true">
             <argument id="leogout_seo.tag_factory" type="service"/>
