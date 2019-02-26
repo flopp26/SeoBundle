@@ -19,12 +19,16 @@ use Leogout\Bundle\SeoBundle\Seo\KeywordsSeoInterface;
 class BasicSeoGenerator extends AbstractSeoGenerator
 {
     /**
-     * @param string $content
-     *
+     * @param $content
+     * @param bool $addSuffix
      * @return $this
      */
-    public function setTitle($content)
+    public function setTitle($content, $addSuffix = true)
     {
+        if($addSuffix){
+            $content = sprintf('%s %s %s', $content, $this->getSeparator(), $this->getSuffix());
+        }
+
         $this->tagBuilder->setTitle($content);
 
         return $this;
