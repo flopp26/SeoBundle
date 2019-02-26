@@ -2,6 +2,7 @@
 
 namespace Leogout\Bundle\SeoBundle\Model;
 use Leogout\Bundle\SeoBundle\Seo\SeoTranslator;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
  * Description of MetaTag.
@@ -18,6 +19,11 @@ class MetaTag implements RenderableInterface
      * @var SeoTranslator
      */
     protected $translator;
+
+    /**
+     * @var RequestStack
+     */
+    protected $request;
 
     /**
      * @var string
@@ -43,9 +49,10 @@ class MetaTag implements RenderableInterface
     protected $eachValueAsSeparateTag = true;
 
 
-    public function __construct(SeoTranslator $translator)
+    public function __construct(SeoTranslator $translator, RequestStack $request)
     {
         $this->translator = $translator;
+        $this->request = $request;
     }
 
     /**
@@ -87,7 +94,7 @@ class MetaTag implements RenderableInterface
      */
     public function setTagName($tagName)
     {
-        $this->tagName = (string) $tagName;
+        $this->tagName = (string)$tagName;
 
         return $this;
     }
@@ -129,7 +136,11 @@ class MetaTag implements RenderableInterface
      */
     public function setContent($content)
     {
-        $this->content = $this->translator->trans($content);
+        if ($this->getTagName() == 'og:url' && $content == 'current') {
+            $this->content = $this->request->getCurrentRequest()->getUri();
+        } else {
+            $this->content = $this->translator->trans($content);
+        }
 
         return $this;
     }
@@ -177,7 +188,7 @@ class MetaTag implements RenderableInterface
             }
         }
 
-        return sprintf('<meta %s="%s" content="%s" />', $this->getType(), $this->getTagName(), (string) $tagContent);
+        return sprintf('<meta %s="%s" content="%s" />', $this->getType(), $this->getTagName(), (string)$tagContent);
     }
 
     /**
