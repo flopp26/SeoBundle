@@ -20,7 +20,7 @@ class SeoTranslator
      * @param $content
      * @return string
      */
-    public function getTranslation($content)
+    public function trans($content)
     {
         if(strtoupper(substr($content, strlen($content) - 6, 6)) == '|TRANS'){
             $content = str_replace('|trans', '', $content);
