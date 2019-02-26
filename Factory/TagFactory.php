@@ -5,6 +5,7 @@ namespace Leogout\Bundle\SeoBundle\Factory;
 use Leogout\Bundle\SeoBundle\Model\LinkTag;
 use Leogout\Bundle\SeoBundle\Model\MetaTag;
 use Leogout\Bundle\SeoBundle\Model\TitleTag;
+use Leogout\Bundle\SeoBundle\Seo\SeoTranslator;
 
 /**
  * Description of TagFactory.
@@ -13,6 +14,16 @@ use Leogout\Bundle\SeoBundle\Model\TitleTag;
  */
 class TagFactory
 {
+    /**
+     * @var SeoTranslator
+     */
+    protected $translator;
+
+    public function __construct(SeoTranslator $translator)
+    {
+        $this->translator = $translator;
+    }
+
     /**
      * @return TitleTag
      */
