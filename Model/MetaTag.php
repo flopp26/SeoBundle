@@ -1,6 +1,7 @@
 <?php
 
 namespace Leogout\Bundle\SeoBundle\Model;
+use Leogout\Bundle\SeoBundle\Seo\SeoTranslator;
 
 /**
  * Description of MetaTag.
@@ -12,6 +13,11 @@ class MetaTag implements RenderableInterface
     const NAME_TYPE = 'name';
     const PROPERTY_TYPE = 'property';
     const HTTP_EQUIV_TYPE = 'http-equiv';
+
+    /**
+     * @var SeoTranslator
+     */
+    protected $translator;
 
     /**
      * @var string
@@ -35,6 +41,12 @@ class MetaTag implements RenderableInterface
      * @var bool
      */
     protected $eachValueAsSeparateTag = true;
+
+
+    public function __construct(SeoTranslator $translator)
+    {
+        $this->translator = $translator;
+    }
 
     /**
      * @return string
@@ -117,7 +129,7 @@ class MetaTag implements RenderableInterface
      */
     public function setContent($content)
     {
-        $this->content = $content;
+        $this->content = $this->translator->trans($content);
 
         return $this;
     }
