@@ -8,7 +8,9 @@
         <service id="leogout_seo.provider.generator" class="Leogout\Bundle\SeoBundle\Provider\SeoGeneratorProvider" public="true">
             <argument type="collection"/>
         </service>
-        <service id="leogout_seo.tag_factory" class="Leogout\Bundle\SeoBundle\Factory\TagFactory"/>
+        <service id="leogout_seo.tag_factory" class="Leogout\Bundle\SeoBundle\Factory\TagFactory">
+            <argument id="translator" type="service"/>
+        </service>
         <service id="leogout_seo.builder" class="Leogout\Bundle\SeoBundle\Builder\TagBuilder" shared="true">
             <argument id="leogout_seo.tag_factory" type="service"/>
             <argument id="translator" type="service"/>
