@@ -6,6 +6,7 @@ use Leogout\Bundle\SeoBundle\Model\LinkTag;
 use Leogout\Bundle\SeoBundle\Model\MetaTag;
 use Leogout\Bundle\SeoBundle\Model\TitleTag;
 use Leogout\Bundle\SeoBundle\Seo\SeoTranslator;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
  * Description of TagFactory.
@@ -19,9 +20,15 @@ class TagFactory
      */
     protected $translator;
 
-    public function __construct(SeoTranslator $translator)
+    /**
+     * @var RequestStack
+     */
+    protected $request;
+
+    public function __construct(SeoTranslator $translator, RequestStack $request)
     {
         $this->translator = $translator;
+        $this->request = $request;
     }
 
     /**
@@ -39,7 +46,7 @@ class TagFactory
      */
     public function createMeta()
     {
-        $metaTag = new MetaTag($this->translator);
+        $metaTag = new MetaTag($this->translator, $this->request);
 
         return $metaTag;
     }
