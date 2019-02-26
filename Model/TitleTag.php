@@ -1,6 +1,7 @@
 <?php
 
 namespace Leogout\Bundle\SeoBundle\Model;
+use Leogout\Bundle\SeoBundle\Seo\SeoTranslator;
 
 /**
  * Description of TitleTag.
@@ -9,10 +10,17 @@ namespace Leogout\Bundle\SeoBundle\Model;
  */
 class TitleTag implements RenderableInterface
 {
+    protected $translator;
+
     /**
      * @var string
      */
     protected $content;
+
+    public function __construct(SeoTranslator $translator)
+    {
+        $this->translator = $translator;
+    }
 
     /**
      * @return string
@@ -29,7 +37,7 @@ class TitleTag implements RenderableInterface
      */
     public function setContent($content)
     {
-        $this->content = (string) $content;
+        $this->content = (string) $this->translator->trans((string) $content);
 
         return $this;
     }
