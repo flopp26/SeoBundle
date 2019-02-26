@@ -136,8 +136,10 @@ class MetaTag implements RenderableInterface
      */
     public function setContent($content)
     {
-        if ($this->getTagName() == 'og:url' && $content == 'current') {
-            $this->content = $this->request->getCurrentRequest()->getUri();
+        if ($content && $this->getTagName() == 'og:url' && $content == 'current') {
+            if($request = $this->request->getCurrentRequest()){
+                $this->content = $request->getUri();
+            }
         } else {
             $this->content = $this->translator->trans($content);
         }
