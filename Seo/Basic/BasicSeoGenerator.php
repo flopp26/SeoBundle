@@ -25,11 +25,7 @@ class BasicSeoGenerator extends AbstractSeoGenerator
      */
     public function setTitle($content, $addSuffix = true)
     {
-        if($addSuffix){
-            $content = sprintf('%s %s %s', $content, $this->getSeparator(), $this->getSuffix());
-        }
-
-        $this->tagBuilder->setTitle(trim($content));
+        $this->tagBuilder->setTitle(trim($content), $addSuffix);
 
         return $this;
     }
@@ -52,7 +48,7 @@ class BasicSeoGenerator extends AbstractSeoGenerator
         $this->tagBuilder->addMeta('description')
             ->setType(MetaTag::NAME_TYPE)
             ->setTagName('description')
-            ->setContent((string) $content);
+            ->setContent((string)$content);
 
         return $this;
     }
@@ -75,7 +71,7 @@ class BasicSeoGenerator extends AbstractSeoGenerator
         $this->tagBuilder->addMeta('keywords')
             ->setType(MetaTag::NAME_TYPE)
             ->setTagName('keywords')
-            ->setContent((string) $keywords);
+            ->setContent((string)$keywords);
 
         return $this;
     }
@@ -116,7 +112,7 @@ class BasicSeoGenerator extends AbstractSeoGenerator
     {
         if ($url) {
             $this->tagBuilder->addLink('canonical')
-                ->setHref((string) $url)
+                ->setHref((string)$url)
                 ->setRel('canonical');
         }
 
@@ -139,7 +135,7 @@ class BasicSeoGenerator extends AbstractSeoGenerator
     public function setPreviousUrl($url)
     {
         $this->tagBuilder->addLink('previousUrl')
-            ->setHref((string) $url)
+            ->setHref((string)$url)
             ->setRel('prev');
 
         return $this;
@@ -161,7 +157,7 @@ class BasicSeoGenerator extends AbstractSeoGenerator
     public function setNextUrl($url)
     {
         $this->tagBuilder->addLink('nextUrl')
-            ->setHref((string) $url)
+            ->setHref((string)$url)
             ->setRel('next');
 
         return $this;
@@ -174,45 +170,7 @@ class BasicSeoGenerator extends AbstractSeoGenerator
     {
         return $this->tagBuilder->getLink('nextUrl');
     }
-    
-    /**
-     * @param $suffix
-     * @return $this
-     */
-    public function setSuffix($suffix)
-    {
-        $this->suffix = $suffix;
 
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getSuffix()
-    {
-        return $this->suffix;
-    }
-
-    /**
-     * @param $separator
-     * @return $this
-     */
-    public function setSeparator($separator)
-    {
-        $this->separator = $separator;
-
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getSeparator()
-    {
-        return $this->separator;
-    }
-    
     /**
      * Generate seo tags from given resource.
      *
