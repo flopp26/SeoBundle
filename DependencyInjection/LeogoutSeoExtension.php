@@ -50,6 +50,12 @@ class LeogoutSeoExtension extends Extension
             sprintf('leogout_seo.%s', $configName),
             $config
         );
+        
+        if($configName == 'basic'){
+            $container->setParameter('leogout_seo.basic.suffix', $config['suffix'] ?? null);
+            $container->setParameter('leogout_seo.basic.separator', $config['separator'] ?? null);
+        }
+        
         $loader->load(sprintf('seo/%s.xml', $configName));
     }
 }
