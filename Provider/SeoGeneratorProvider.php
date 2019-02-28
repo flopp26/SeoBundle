@@ -42,13 +42,12 @@ class SeoGeneratorProvider
 
     /***
      * @param $pageName
-     * Set page for translation for basic générator
      */
-    public function setPage($pageName)
+    public function setPage($pageName, $image = null)
     {
         $generators = $this->getAll();
         foreach ($generators as $generator) {
-            $generator->setPage($pageName);
+            $generator->setPage($pageName, $image);
         }
     }
 
