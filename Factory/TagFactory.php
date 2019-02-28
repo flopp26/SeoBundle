@@ -25,18 +25,24 @@ class TagFactory
      */
     protected $request;
 
+    protected $suffix;
+
+    protected $separator;
+
     public function __construct(SeoTranslator $translator, RequestStack $request, $suffix, $separator)
     {
         $this->translator = $translator;
         $this->request = $request;
+        $this->suffix = $suffix;
+        $this->separator = $separator;
     }
 
     /**
      * @return TitleTag
      */
-    public function createTitle()
+    public function createTitle($addSuffix)
     {
-        $titleTag = new TitleTag($this->translator);
+        $titleTag = new TitleTag($this->translator, $addSuffix, $this->suffix, $this->separator);
 
         return $titleTag;
     }
