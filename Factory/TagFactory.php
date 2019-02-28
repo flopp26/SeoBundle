@@ -25,7 +25,7 @@ class TagFactory
      */
     protected $request;
 
-    public function __construct(SeoTranslator $translator, RequestStack $request)
+    public function __construct(SeoTranslator $translator, RequestStack $request, $suffix, $separator)
     {
         $this->translator = $translator;
         $this->request = $request;
