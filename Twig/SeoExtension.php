@@ -57,13 +57,12 @@ class SeoExtension extends \Twig_Extension
         return $this->tagBuilder->render();
     }
 
-    public function seoPage($pageName)
+    public function seoPage($pageName, $image = null)
     {
-        $this->generatorProvider->setPage($pageName);
+        $this->generatorProvider->setPage($pageName, $image);
 
         return $this->tagBuilder->render();
     }
-
 
     /**
      * Returns the name of the extension.
