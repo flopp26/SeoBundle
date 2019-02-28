@@ -40,6 +40,16 @@ class SeoGeneratorProvider
         return $this->generators[$alias];
     }
 
+    /***
+     * @param $pageName
+     * Set page for translation for basic générator
+     */
+    public function setPage($pageName)
+    {
+        $generator = $this->get('basic');
+        $generator->setPage($pageName);
+    }
+
     /**
      * @return AbstractSeoGenerator[]
      */
