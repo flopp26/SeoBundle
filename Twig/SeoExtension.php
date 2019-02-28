@@ -40,6 +40,7 @@ class SeoExtension extends \Twig_Extension
     public function getFunctions()
     {
         return array(
+            new \Twig_SimpleFunction('seo_page', [$this, 'seoPage'], ['is_safe' => ['html']]),
             new \Twig_SimpleFunction('leogout_seo', [$this, 'seo'], ['is_safe' => ['html']]),
         );
     }
@@ -55,6 +56,14 @@ class SeoExtension extends \Twig_Extension
         }
         return $this->tagBuilder->render();
     }
+
+    public function seoPage($pageName)
+    {
+        $this->generatorProvider->setPage($pageName);
+
+        return $this->tagBuilder->render();
+    }
+
 
     /**
      * Returns the name of the extension.
