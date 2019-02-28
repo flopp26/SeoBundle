@@ -47,7 +47,7 @@ class SeoGeneratorProvider
     public function setPage($pageName)
     {
         $generators = $this->getAll();
-        foreach($generators as $generator){
+        foreach ($generators as $generator) {
             $generator->setPage($pageName);
         }
     }
