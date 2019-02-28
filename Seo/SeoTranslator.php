@@ -22,7 +22,7 @@ class SeoTranslator
      */
     public function trans($content)
     {
-        if(strtoupper(substr($content, strlen($content) - 6, 6)) == '|TRANS'){
+        if (strtoupper(substr($content, strlen($content) - 6, 6)) == '|TRANS') {
             $content = str_replace('|trans', '', $content);
             $content = $this->translator->trans($content);
         }
