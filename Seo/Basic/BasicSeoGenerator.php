@@ -18,14 +18,6 @@ use Leogout\Bundle\SeoBundle\Seo\KeywordsSeoInterface;
  */
 class BasicSeoGenerator extends AbstractSeoGenerator
 {
-    public function setPage($pageName)
-    {
-        $this
-            ->setTitle(sprintf('%s.seo.description|trans', $pageName))
-            ->setDescription(sprintf('%s.seo.description|trans', $pageName))
-            ->setKeywords(sprintf('%s.seo.keywords|trans', $pageName));
-    }
-
     /**
      * @param $content
      * @param bool $addSuffix
