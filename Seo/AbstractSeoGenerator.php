@@ -21,7 +21,7 @@ abstract class AbstractSeoGenerator implements RenderableInterface
      * @var string
      */
     protected $separator;
-    
+
     /**
      * @var TagBuilder
      */
@@ -35,6 +35,21 @@ abstract class AbstractSeoGenerator implements RenderableInterface
     public function __construct(TagBuilder $tagBuilder)
     {
         $this->tagBuilder = $tagBuilder;
+    }
+
+    public function setPage($pageName)
+    {
+        if (method_exists($this, 'setTitle')) {
+            $this->setTitle(sprintf('%s.seo.description|trans', $pageName));
+        }
+
+        if (method_exists($this, 'setDescription')) {
+            $this->setDescription(sprintf('%s.seo.description|trans', $pageName));
+        }
+
+        if (method_exists($this, 'setKeywords')) {
+            $this->setKeywords(sprintf('%s.seo.keywords|trans', $pageName));
+        }
     }
 
     /**
