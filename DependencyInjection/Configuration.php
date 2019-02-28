@@ -40,8 +40,6 @@ class Configuration implements ConfigurationInterface
                 ->scalarNode('title')->end()
                 ->scalarNode('description')->end()
                 ->scalarNode('image')->end()
-                ->scalarNode('suffix')->end()
-                ->scalarNode('separator')->end()
             ->end();
     }
 
@@ -55,6 +53,8 @@ class Configuration implements ConfigurationInterface
                 ->scalarNode('title')->end()
                 ->scalarNode('description')->end()
                 ->scalarNode('keywords')->end()
+                ->scalarNode('suffix')->end()
+                ->scalarNode('separator')->end()
                 ->arrayNode('robots')
                     ->children()
                         ->booleanNode('index')->defaultTrue()->end()
@@ -126,9 +126,4 @@ class Configuration implements ConfigurationInterface
                 ->scalarNode('site')->end()
             ->end();
     }
-
-
-
-
-
 }
