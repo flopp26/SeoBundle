@@ -44,16 +44,16 @@ class TagBuilder implements RenderableInterface
     {
         $this->tagFactory = $tagFactory;
     }
-    
+
     /**
      * @param string $title
      *
      * @return TitleTag
      */
-    public function setTitle($title)
+    public function setTitle($title, $addSuffix)
     {
         return $this->title = $this->tagFactory
-            ->createTitle()
+            ->createTitle($addSuffix)
             ->setContent($title);
     }
 
@@ -81,8 +81,7 @@ class TagBuilder implements RenderableInterface
             ->setType($type)
             ->setTagName($value)
             ->setContent($content)
-            ->setEachValueAsSeparateTag((bool) $eachValueAsSeparateTag)
-            ;
+            ->setEachValueAsSeparateTag((bool)$eachValueAsSeparateTag);
     }
 
     /**
@@ -96,7 +95,7 @@ class TagBuilder implements RenderableInterface
     }
 
     /**
-     * @param string      $name
+     * @param string $name
      * @param string|null $href
      * @param string|null $rel
      * @param string|null $type
