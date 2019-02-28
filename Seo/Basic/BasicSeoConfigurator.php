@@ -43,11 +43,5 @@ class BasicSeoConfigurator extends AbstractSeoConfigurator
         if ($this->hasConfig('paginate_next')) {
             $generator->setNextUrl($this->getConfig('paginate_next'));
         }
-        if ($this->hasConfig('suffix')) {
-            $generator->setSuffix($this->getConfig('suffix'));
-        }
-        if ($this->hasConfig('separator')) {
-            $generator->setSeparator($this->getConfig('separator'));
-        }
     }
 }
