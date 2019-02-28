@@ -11,15 +11,21 @@ use Leogout\Bundle\SeoBundle\Seo\SeoTranslator;
 class TitleTag implements RenderableInterface
 {
     protected $translator;
+    protected $addSuffix;
+    protected $suffix;
+    protected $separator;
 
     /**
      * @var string
      */
     protected $content;
 
-    public function __construct(SeoTranslator $translator)
+    public function __construct(SeoTranslator $translator, $addSuffix, $suffix, $separator)
     {
         $this->translator = $translator;
+        $this->addSuffix = $addSuffix;
+        $this->suffix = $suffix;
+        $this->separator = $separator;
     }
 
     /**
@@ -27,6 +33,10 @@ class TitleTag implements RenderableInterface
      */
     public function getContent()
     {
+        if ($this->addSuffix && $this->suffix) {
+            $this->content = sprintf('%s %s %s', $this->content, $this->separator, $this->suffix);
+        }
+
         return $this->content;
     }
 
@@ -37,7 +47,7 @@ class TitleTag implements RenderableInterface
      */
     public function setContent($content)
     {
-        $this->content = (string) $this->translator->trans((string) $content);
+        $this->content = (string)$this->translator->trans((string)$content);
 
         return $this;
     }
