@@ -24,7 +24,12 @@ class SeoTranslator
     {
         if (strtoupper(substr($content, strlen($content) - 6, 6)) == '|TRANS') {
             $content = str_replace('|trans', '', $content);
-            $content = $this->translator->trans($content);
+            $contentTranslated = $this->translator->trans($content);
+            if ($contentTranslated == $content) {
+                return null;
+            }
+
+            return $contentTranslated;
         }
 
         return $content;
