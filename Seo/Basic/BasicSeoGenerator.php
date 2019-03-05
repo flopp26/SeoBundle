@@ -23,7 +23,7 @@ class BasicSeoGenerator extends AbstractSeoGenerator
      * @param bool $addSuffix
      * @return $this
      */
-    public function setTitle($content, $addSuffix = true)
+    public function setTitle($content, $addSuffix = false)
     {
         $this->tagBuilder->setTitle(trim($content), $addSuffix);
 
