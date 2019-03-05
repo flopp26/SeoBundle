@@ -40,7 +40,7 @@ abstract class AbstractSeoGenerator implements RenderableInterface
     public function setPage($pageName, $image = null)
     {
         if (method_exists($this, 'setTitle')) {
-            $this->setTitle(sprintf('page.%s.seo.title|trans', $pageName));
+            $this->setTitle(sprintf('page.%s.seo.title|trans', $pageName), true);
         }
 
         if (method_exists($this, 'setDescription')) {
