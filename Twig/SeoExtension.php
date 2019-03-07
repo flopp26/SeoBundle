@@ -2,6 +2,7 @@
 
 namespace Leogout\Bundle\SeoBundle\Twig;
 
+use Leogout\Bundle\SeoBundle\Builder\ImageBuilder;
 use Leogout\Bundle\SeoBundle\Builder\TagBuilder;
 use Leogout\Bundle\SeoBundle\Model\RenderableInterface;
 use Leogout\Bundle\SeoBundle\Provider\SeoGeneratorProvider;
@@ -17,6 +18,12 @@ class SeoExtension extends \Twig_Extension
      * @var TagBuilder
      */
     private $tagBuilder;
+
+    /**
+     * @var ImageBuilder
+     */
+    private $imageBuilder;
+
     /**
      * @var SeoGeneratorProvider
      */
@@ -28,9 +35,10 @@ class SeoExtension extends \Twig_Extension
      * @param SeoGeneratorProvider $generatorProvider
      * @param TagBuilder $tagBuilder
      */
-    public function __construct(SeoGeneratorProvider $generatorProvider, TagBuilder $tagBuilder)
+    public function __construct(SeoGeneratorProvider $generatorProvider, TagBuilder $tagBuilder, ImageBuilder $imageBuilder)
     {
         $this->tagBuilder = $tagBuilder;
+        $this->imageBuilder = $imageBuilder;
         $this->generatorProvider = $generatorProvider;
     }
 
@@ -59,9 +67,22 @@ class SeoExtension extends \Twig_Extension
 
     public function seoPage($pageName, $addSufix = true, $image = null)
     {
-        $this->generatorProvider->setPage($pageName, $addSufix, $image);
+        $this->generatorProvider->setPage($pageName, $addSufix);
 
-        return $this->tagBuilder->render();
+        $generators = $this->generatorProvider->getAll();
+        foreach ($generators as $generator) {
+
+            /* on vérifie si l'image existe */
+            if ($image = $this->imageBuilder->imagePageAvailable($pageName)) {
+                if (method_exists($generator, 'setImage')) {
+                    $generator->setImage($image);
+                }
+            }
+
+            $generator->setPage($pageName, $addSufix);
+        }
+
+        return $this->tagBuilder->render() . $this->imageBuilder->render();
     }
 
     /**
