@@ -82,7 +82,7 @@ class SeoExtension extends \Twig_Extension
             $generator->setPage($pageName, $addSufix);
         }
 
-        return $this->tagBuilder->render() . $this->imageBuilder->render();
+        return $this->tagBuilder->render();
     }
 
     /**
