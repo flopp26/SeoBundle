@@ -73,9 +73,14 @@ class SeoExtension extends \Twig_Extension
         foreach ($generators as $generator) {
 
             /* on vérifie si l'image existe */
-            if ($image = $this->imageBuilder->imagePageAvailable($pageName)) {
+            if ($imageDatas = $this->imageBuilder->imagePageAvailable($pageName)) {
                 if (method_exists($generator, 'setImage')) {
-                    $generator->setImage($image);
+                    $generator->setImage($imageDatas['url']);
+                    if (method_exists($generator, 'setImageType')) {
+                        $generator->setImageType($imageDatas['mime']);
+                        $generator->setImageWidth($imageDatas['width']);
+                        $generator->setImageHeight($imageDatas['height']);
+                    }
                 }
             }
 
