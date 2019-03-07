@@ -57,9 +57,9 @@ class SeoExtension extends \Twig_Extension
         return $this->tagBuilder->render();
     }
 
-    public function seoPage($pageName, $image = null)
+    public function seoPage($pageName, $addSufix = true, $image = null)
     {
-        $this->generatorProvider->setPage($pageName, $image);
+        $this->generatorProvider->setPage($pageName, $addSufix, $image);
 
         return $this->tagBuilder->render();
     }
