@@ -43,11 +43,11 @@ class SeoGeneratorProvider
     /***
      * @param $pageName
      */
-    public function setPage($pageName, $image = null)
+    public function setPage($pageName, $addSufix, $image = null)
     {
         $generators = $this->getAll();
         foreach ($generators as $generator) {
-            $generator->setPage($pageName, $image);
+            $generator->setPage($pageName, $addSufix, $image);
         }
     }
 
