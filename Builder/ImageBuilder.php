@@ -49,9 +49,14 @@ class ImageBuilder
 
         $list = glob(sprintf('%s/%s.{jpg,gif,png}', $folderImage, 'seo-image'), GLOB_BRACE);
         if (count($list) > 0) {
-
+            $imageSize = \getimagesize($list[0]);
             if ($request = $this->requestStack->getCurrentRequest()) {
-                return $request->getSchemeAndHttpHost() . $this->assetsManager->getUrl(join(DIRECTORY_SEPARATOR, array('images', 'pages', $pageName, basename($list[0]))));
+                return array(
+                    'url' => $request->getSchemeAndHttpHost() . $this->assetsManager->getUrl(join(DIRECTORY_SEPARATOR, array('images', 'pages', $pageName, basename($list[0])))),
+                    'mime' => $imageSize['mime'],
+                    'width' => $imageSize[0],
+                    'height' => $imageSize[1]
+                );
             }
         }
 
