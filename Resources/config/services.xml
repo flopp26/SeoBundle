@@ -8,6 +8,12 @@
         <service id="leogout_seo.provider.generator" class="Leogout\Bundle\SeoBundle\Provider\SeoGeneratorProvider" public="true">
             <argument type="collection"/>
         </service>
+        <service id="leogout_seo.image_builder" class="Leogout\Bundle\SeoBundle\Builder\ImageBuilder">
+            <argument id="kernel" type="service"/>
+            <argument id="request_stack" type="service"/>
+            <argument id="assets.packages" type="service"/>
+        </service>
+
         <service id="leogout_seo.translator" class="Leogout\Bundle\SeoBundle\Seo\SeoTranslator">
             <argument id="translator" type="service"/>
         </service>
@@ -24,6 +30,7 @@
         <service id="leogout_seo.twig.seo_extension" class="Leogout\Bundle\SeoBundle\Twig\SeoExtension">
             <argument id="leogout_seo.provider.generator" type="service"/>
             <argument id="leogout_seo.builder" type="service"/>
+            <argument id="leogout_seo.image_builder" type="service"/>
             <tag name="twig.extension"/>
         </service>
     </services>
