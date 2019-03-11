@@ -61,6 +61,21 @@ class BasicSeoGenerator extends AbstractSeoGenerator
         return $this->tagBuilder->getMeta('description');
     }
 
+    public function setPublisher($content)
+    {
+        $this->tagBuilder->addMeta('article:publisher')
+            ->setTagName('article:publisher')
+            ->setType(MetaTag::PROPERTY_TYPE)
+            ->setContent((string)$content);
+
+        return $this;
+    }
+
+    public function getPublisher($content)
+    {
+        return $this->tagBuilder->getMeta('article:publisher');
+    }
+
     /**
      * @param string $keywords
      *
