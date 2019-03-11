@@ -24,7 +24,6 @@ class AppKernel extends Kernel
     }
 }
 ```
-
 ## Configuration
 
 These configuration values are the defaults used to render your tags.
