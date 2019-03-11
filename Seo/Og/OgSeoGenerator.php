@@ -518,7 +518,7 @@ class OgSeoGenerator extends AbstractSeoGenerator
     public function set($type, $value)
     {
         $this->tagBuilder->addMeta($type)
-            ->setType(MetaTag::NAME_TYPE)
+            ->setType(MetaTag::PROPERTY_TYPE)
             ->setTagName($type)
             ->setContent($value);
 
