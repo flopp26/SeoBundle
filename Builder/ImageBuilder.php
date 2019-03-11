@@ -44,9 +44,8 @@ class ImageBuilder
 
     private function getImage($pageName)
     {
-        $pageName = str_replace('_', '-', $pageName);
+        $pageName = str_replace(array('_', '.'), '-', $pageName);
         $folderImage = join(DIRECTORY_SEPARATOR, array($this->kernel->getProjectDir(), 'assets', 'images', 'pages', $pageName));
-
         $list = glob(sprintf('%s/%s.{jpg,gif,png}', $folderImage, 'seo-image'), GLOB_BRACE);
         if (count($list) > 0) {
             $imageSize = \getimagesize($list[0]);
