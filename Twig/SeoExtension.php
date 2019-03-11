@@ -65,7 +65,7 @@ class SeoExtension extends \Twig_Extension
         return $this->tagBuilder->render();
     }
 
-    public function seoPage($pageName, $addSufix = true, $image = null)
+    public function seoPage($pageName, $addSufix = true, $options = null)
     {
         $this->generatorProvider->setPage($pageName, $addSufix);
 
@@ -85,6 +85,15 @@ class SeoExtension extends \Twig_Extension
             }
 
             $generator->setPage($pageName, $addSufix);
+
+            if($options){
+                foreach($options as $method=>$value){
+                    $methodName = sprintf('set%s', ucfirst($method));
+                    if (method_exists($generator, $methodName)) {
+                        $generator->$methodName($value);
+                    }
+                }
+            }
         }
 
         return $this->tagBuilder->render();
