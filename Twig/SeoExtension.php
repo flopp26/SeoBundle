@@ -67,8 +67,6 @@ class SeoExtension extends \Twig_Extension
 
     public function seoPage($pageName, $addSufix = true, $options = null)
     {
-        $this->generatorProvider->setPage($pageName, $addSufix);
-
         $generators = $this->generatorProvider->getAll();
         foreach ($generators as $generator) {
 
