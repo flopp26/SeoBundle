@@ -32,6 +32,8 @@
             <argument id="leogout_seo.builder" type="service"/>
             <argument id="leogout_seo.image_builder" type="service"/>
             <argument id="knp_menu.helper" type="service"/>
+            <argument id="request_stack" type="service"/>
+            <argument id="translator" type="service"/>
             <tag name="twig.extension"/>
         </service>
     </services>
