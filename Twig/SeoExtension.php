@@ -68,7 +68,7 @@ class SeoExtension extends \Twig_Extension
     public function seoPage($pageName = null, $addSufix = true, $options = null)
     {
         $generators = $this->generatorProvider->getAll();
-        if(!null === $pageName) {
+        if(is_null($pageName) == false ) {
             foreach ($generators as $generator) {
 
                 /* on vérifie si l'image existe */
