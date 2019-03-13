@@ -65,32 +65,34 @@ class SeoExtension extends \Twig_Extension
         return $this->tagBuilder->render();
     }
 
-    public function seoPage($pageName, $addSufix = true, $options = null)
+    public function seoPage($pageName = null, $addSufix = true, $options = null)
     {
         $generators = $this->generatorProvider->getAll();
-        foreach ($generators as $generator) {
+        if(!null === $pageName) {
+            foreach ($generators as $generator) {
 
-            /* on vérifie si l'image existe */
-            if ($imageDatas = $this->imageBuilder->imagePageAvailable($pageName)) {
-                if (method_exists($generator, 'setImage')) {
-                    $generator->setImage($imageDatas['url']);
-                    if (method_exists($generator, 'setImageType')) {
-                        $generator->setImageType($imageDatas['mime']);
-                        $generator->setImageWidth($imageDatas['width']);
-                        $generator->setImageHeight($imageDatas['height']);
+                /* on vérifie si l'image existe */
+                if ($imageDatas = $this->imageBuilder->imagePageAvailable($pageName)) {
+                    if (method_exists($generator, 'setImage')) {
+                        $generator->setImage($imageDatas['url']);
+                        if (method_exists($generator, 'setImageType')) {
+                            $generator->setImageType($imageDatas['mime']);
+                            $generator->setImageWidth($imageDatas['width']);
+                            $generator->setImageHeight($imageDatas['height']);
+                        }
                     }
                 }
-            }
 
-            $generator->setPage($pageName, $addSufix);
-
-            if($options){
-                foreach($options as $method=>$value){
-                    $methodName = sprintf('set%s', ucfirst($method));
-                    if (method_exists($generator, $methodName)) {
-                        $generator->$methodName($value);
+                if ($options) {
+                    foreach ($options as $method => $value) {
+                        $methodName = sprintf('set%s', ucfirst($method));
+                        if (method_exists($generator, $methodName)) {
+                            $generator->$methodName($value);
+                        }
                     }
                 }
+
+                $generator->setPage($pageName, $addSufix);
             }
         }
 
