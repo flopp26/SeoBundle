@@ -17,7 +17,8 @@
   ],
   "require":      {
     "php": "~7",
-    "symfony/framework-bundle": "~2.8|~3.4|~4.0"
+    "symfony/framework-bundle": "~2.8|~3.4|~4.0",
+    "knplabs/knp-menu-bundle": "^2.2"
   },
   "require-dev":  {
     "symfony/phpunit-bridge": "~2.8|~3.4|~4.0",
