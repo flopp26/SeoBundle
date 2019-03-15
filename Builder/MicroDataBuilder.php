@@ -4,6 +4,7 @@ namespace Leogout\Bundle\SeoBundle\Builder;
 
 use Knp\Menu\Twig\Helper as KnpMenuHelper;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\Routing\RouterInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class MicroDataBuilder
@@ -25,17 +26,19 @@ class MicroDataBuilder
 
     private $socialProfil;
     private $organization;
+    private $faq;
 
-    public function __construct(KnpMenuHelper $menuHelper, TranslatorInterface $translator, RequestStack $requestStack)
+    public function __construct(KnpMenuHelper $menuHelper, TranslatorInterface $translator, RequestStack $requestStack, RouterInterface $router)
     {
         $this->menuHelper = $menuHelper;
         $this->requestStack = $requestStack;
         $this->translator = $translator;
+        $this->router = $router;
     }
 
     public function getSocialProfile($key)
     {
-        if(key_exists($key, $this->socialProfil)){
+        if (key_exists($key, $this->socialProfil)) {
             return $this->socialProfil[$key];
         }
 
@@ -52,7 +55,7 @@ class MicroDataBuilder
 
     public function getOrganization($key)
     {
-        if(key_exists($key, $this->organization)){
+        if (key_exists($key, $this->organization)) {
             return $this->organization[$key];
         }
 
@@ -68,6 +71,51 @@ class MicroDataBuilder
         );
     }
 
+    public function getFaq()
+    {
+        return $this->faq;
+    }
+
+    public function setFaq($faq)
+    {
+        $this->faq = $faq;
+    }
+
+    public function generateFaq()
+    {
+        $locale = $this->requestStack->getCurrentRequest()->getLocale();
+        $faqUrl = $this->requestStack->getCurrentRequest()->getSchemeAndHttpHost() .
+                  $this->router->generate('faq_item', array('slug' => $this->getFaq()->translate($locale)->getSlug()));
+
+        $root = array(
+            '@context' => 'https://schema.org',
+            "@type" => "QAPage",
+            "mainEntity" => array(
+                "@type" => "Question",
+                "name" => $this->getFaq()->translate($locale)->getTitle(),
+                "answerCount" => 1,
+                "dateCreated" => $this->getFaq()->getCreatedAt()->format('Y-m-d\TH:i:s\Z'),
+                'author' => array(
+                    "@type" => "Person",
+                    "name" => $this->getSocialProfile('name')
+                ),
+                "acceptedAnswer" => array(
+                    "@type" => "Answer",
+                    "text" => $this->getFaq()->translate($locale)->getContent(),
+                    "dateCreated" => $this->getFaq()->getCreatedAt()->format('Y-m-d\TH:i:s\Z'),
+                    "upvoteCount"=> $this->getFaq()->getUpVoteCount(),
+                    "url" => $faqUrl,
+                    'author' => array(
+                        "@type" => "Person",
+                        "name" => $this->getSocialProfile('name')
+                    )
+                )
+            )
+        );
+
+        return $root;
+    }
+
     public function generateSocialProfile()
     {
         $root = array(
@@ -80,7 +128,7 @@ class MicroDataBuilder
             )
         );
 
-        return '<script type="application/ld+json">' . json_encode($root) . '</script>';
+        return $root;
     }
 
     public function generateOrganization()
@@ -98,12 +146,12 @@ class MicroDataBuilder
             )
         );
 
-        return '<script type="application/ld+json">'. json_encode($root) .'</script>';
+        return $root;
     }
 
     public function generateBreadcrumbMarkup()
     {
-        if($currentItem = $this->menuHelper->getCurrentItem('website')){
+        if ($currentItem = $this->menuHelper->getCurrentItem('website')) {
 
             $root = array(
                 '@context' => 'https://schema.org',
@@ -111,8 +159,8 @@ class MicroDataBuilder
                 'itemListElement' => array()
             );
 
-            foreach($this->menuHelper->getBreadcrumbsArray($currentItem) as $index => $breadcrumb){
-                $root['itemListElement'][] =  array(
+            foreach ($this->menuHelper->getBreadcrumbsArray($currentItem) as $index => $breadcrumb) {
+                $root['itemListElement'][] = array(
                     '@type' => 'ListItem',
                     'position' => $index + 1,
                     'name' => $this->translator->trans($breadcrumb['item']->getName()),
@@ -120,9 +168,36 @@ class MicroDataBuilder
                 );
             }
 
-            return '<script type="application/ld+json">'. json_encode($root) .'</script>';
+            return $root;
         }
 
         return;
+    }
+
+    /**
+     * @return string
+     */
+    public function render()
+    {
+        $root = array();
+
+        $root[] = $this->generateBreadcrumbMarkup();
+
+        if (null != $this->socialProfil) {
+            $root[] = $this->generateSocialProfile();
+        }
+
+        if (null != $this->organization) {
+            $root[] = $this->generateOrganization();
+        }
+
+        if (null != $this->faq) {
+            $root[] = $this->generateFaq();
+        }
+
+        return implode(PHP_EOL, array_map(function ($markup) {
+                return '<script type="application/ld+json">' . json_encode($markup) . '</script>';
+            }, $root)
+        );
     }
 }
