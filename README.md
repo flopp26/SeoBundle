@@ -40,6 +40,10 @@ See "Configuration reference" to get the whole configuration.
 **In your `config.yml`:**
 ```yml
 leogout_seo:
+    microdata
+        social_profil:
+            facebook_page: '%facebook_page%'
+            name: 'MyName'
     general:
         title: Default title
         description: Default description.
