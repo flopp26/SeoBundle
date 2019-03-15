@@ -34,11 +34,18 @@ class Configuration implements ConfigurationInterface
     {
         $generalNode = $rootNode->children()->arrayNode('microdata');
         $socialProfileNode = $generalNode->children()->arrayNode('social_profil');
-
         $socialProfileNode->addDefaultsIfNotSet()
             ->children()
                 ->scalarNode('facebook_page')->end()
                 ->scalarNode('name')->end()
+            ->end();
+
+        $organizationNode = $generalNode->children()->arrayNode('organization');
+        $organizationNode->addDefaultsIfNotSet()
+            ->children()
+            ->scalarNode('logo')->end()
+            ->scalarNode('phone')->end()
+            ->scalarNode('email')->end()
             ->end();
     }
 
