@@ -18,6 +18,10 @@
             <argument id="translator" type="service"/>
             <argument id="request_stack" type="service"/>
         </service>
+        <service id="leogout_seo.builder" class="Leogout\Bundle\SeoBundle\Builder\TagBuilder" shared="true">
+            <argument id="leogout_seo.tag_factory" type="service"/>
+            <argument id="translator" type="service"/>
+        </service>
         <service id="leogout_seo.translator" class="Leogout\Bundle\SeoBundle\Seo\SeoTranslator">
             <argument id="translator" type="service"/>
         </service>
@@ -26,10 +30,6 @@
             <argument id="request_stack" type="service"/>
             <argument key="$suffix">%leogout_seo.basic.suffix%</argument>
             <argument key="$separator">%leogout_seo.basic.separator%</argument>
-        </service>
-        <service id="leogout_seo.builder" class="Leogout\Bundle\SeoBundle\Builder\TagBuilder" shared="true">
-            <argument id="leogout_seo.tag_factory" type="service"/>
-            <argument id="translator" type="service"/>
         </service>
         <service id="leogout_seo.twig.seo_extension" class="Leogout\Bundle\SeoBundle\Twig\SeoExtension">
             <argument id="leogout_seo.provider.generator" type="service"/>
