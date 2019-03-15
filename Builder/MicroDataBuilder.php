@@ -96,7 +96,7 @@ class MicroDataBuilder
                 "answerCount" => 1,
                 "dateCreated" => $this->getFaq()->getCreatedAt()->format('Y-m-d\TH:i:s\Z'),
                 'author' => array(
-                    "@type" => "Person",
+                    "@type" => "Organization",
                     "name" => $this->getSocialProfile('name')
                 ),
                 "acceptedAnswer" => array(
@@ -106,7 +106,7 @@ class MicroDataBuilder
                     "upvoteCount"=> $this->getFaq()->getUpVoteCount(),
                     "url" => $faqUrl,
                     'author' => array(
-                        "@type" => "Person",
+                        "@type" => "Organization",
                         "name" => $this->getSocialProfile('name')
                     )
                 )
