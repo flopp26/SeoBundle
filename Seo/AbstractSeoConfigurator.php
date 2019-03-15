@@ -34,13 +34,17 @@ abstract class AbstractSeoConfigurator
      *
      * @return mixed|null
      */
-    protected function getConfig($name)
+    protected function getConfig($name, $config = null)
     {
-        if (!isset($this->config[$name])) {
+        if(is_null($config)){
+            $config = $this->config;
+        }
+
+        if (!isset($config[$name])) {
             return null;
         }
 
-        return $this->config[$name];
+        return $config[$name];
     }
 
     /**
