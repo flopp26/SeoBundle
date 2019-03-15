@@ -1,0 +1,18 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <service id="leogout_seo.configurator.microdata" class="Leogout\Bundle\SeoBundle\Seo\MicroData\MicroDataSeoConfigurator" shared="true">
+            <argument>%leogout_seo.microdata%</argument>
+        </service>
+
+        <service id="leogout_seo.generator.microdata" class="Leogout\Bundle\SeoBundle\Seo\MicroData\MicroDataSeoGenerator"  shared="true">
+            <argument id="leogout_seo.builder" type="service"/>
+            <configurator service="leogout_seo.configurator.microdata" method="configure" />
+            <tag name="leogout_seo.generator" alias="microdata"/>
+        </service>
+    </services>
+</container>
