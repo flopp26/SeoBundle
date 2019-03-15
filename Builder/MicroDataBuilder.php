@@ -23,7 +23,7 @@ class MicroDataBuilder
      */
     private $translator;
 
-    private $test;
+    private $socialProfil;
 
     public function __construct(KnpMenuHelper $menuHelper, TranslatorInterface $translator, RequestStack $requestStack)
     {
@@ -32,14 +32,36 @@ class MicroDataBuilder
         $this->translator = $translator;
     }
 
-    public function getFacebookPage()
+    public function getSocialProfile($key)
     {
-        return $this->test;
+        if(key_exists($key, $this->socialProfil)){
+            return $this->socialProfil[$key];
+        }
+
+        throw new \Exception(sprintf('this key %s not exist in social profil', $key));
     }
 
-    public function setFacebookPage($facebookPage)
+    public function setSocialProfile($facebookPage, $name)
     {
-        $this->test = $facebookPage;
+        $this->socialProfil = array(
+            'facebookPage' => $facebookPage,
+            'name' => $name
+        );
+    }
+
+    public function generateSocialProfile()
+    {
+        $root = array(
+            '@context' => 'https://schema.org',
+            "@type" => "Person",
+            "name" => $this->getSocialProfile('name'),
+            "url" => $this->requestStack->getCurrentRequest()->getSchemeAndHttpHost(),
+            "sameAs" => array(
+                $this->getSocialProfile('facebookPage')
+            )
+        );
+
+        return '<script type="application/ld+json">' . json_encode($root) . '</script>';
     }
 
     public function generateBreadcrumbMarkup()
