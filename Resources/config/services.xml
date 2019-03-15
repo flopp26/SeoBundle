@@ -17,6 +17,7 @@
             <argument id="knp_menu.helper" type="service"/>
             <argument id="translator" type="service"/>
             <argument id="request_stack" type="service"/>
+            <argument id="router.default" type="service"/>
         </service>
         <service id="leogout_seo.builder" class="Leogout\Bundle\SeoBundle\Builder\TagBuilder" shared="true">
             <argument id="leogout_seo.tag_factory" type="service"/>
