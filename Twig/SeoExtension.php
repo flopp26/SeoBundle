@@ -75,7 +75,7 @@ class SeoExtension extends \Twig_Extension
     {
         $generators = $this->generatorProvider->getAll();
 
-        if(is_null($pageName) == false ) {
+        if (is_null($pageName) == false) {
             foreach ($generators as $generator) {
 
                 /* on vérifie si l'image existe */
@@ -103,8 +103,7 @@ class SeoExtension extends \Twig_Extension
             }
         }
 
-        return
-            $this->tagBuilder->render() . PHP_EOL . $this->microDataBuilder->render();
+        return $this->tagBuilder->render() . PHP_EOL . $this->microDataBuilder->render();
     }
 
     /**
