@@ -21,12 +21,22 @@ class Configuration implements ConfigurationInterface
         $treeBuilder = new TreeBuilder('leogout_seo');
         $rootNode = $treeBuilder->getRootNode();
 
+        $this->configureMicroDataTree($rootNode);
         $this->configureGeneralTree($rootNode);
         $this->configureBasicTree($rootNode);
         $this->configureOgTree($rootNode);
         $this->configureTwitterTree($rootNode);
 
         return $treeBuilder;
+    }
+
+    protected function configureMicroDataTree(ArrayNodeDefinition $rootNode)
+    {
+        $generalNode = $rootNode->children()->arrayNode('microdata');
+        $generalNode->addDefaultsIfNotSet()
+            ->children()
+                ->scalarNode('facebook_page')->end()
+            ->end();
     }
 
     /**
