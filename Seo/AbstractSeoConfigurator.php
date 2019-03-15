@@ -48,8 +48,12 @@ abstract class AbstractSeoConfigurator
      *
      * @return bool
      */
-    protected function hasConfig($name)
+    protected function hasConfig($name, $config = null)
     {
-        return array_key_exists($name, $this->config);
+        if(is_null($config)){
+            $config = $this->config;
+        }
+
+        return array_key_exists($name, $config);
     }
 }
