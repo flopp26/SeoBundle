@@ -106,10 +106,9 @@ class SeoExtension extends \Twig_Extension
         return
             $this->tagBuilder->render()
             . PHP_EOL . $this->microDataBuilder->generateBreadcrumbMarkup()
-            . PHP_EOL . $this->microDataBuilder->generateSocialProfile();
+            . PHP_EOL . $this->microDataBuilder->generateSocialProfile()
+            . PHP_EOL . $this->microDataBuilder->generateOrganization();
     }
-
-
 
     /**
      * Returns the name of the extension.
