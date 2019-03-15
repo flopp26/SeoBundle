@@ -13,7 +13,11 @@
             <argument id="request_stack" type="service"/>
             <argument id="assets.packages" type="service"/>
         </service>
-
+        <service id="leogout_seo.microdata_builder" class="Leogout\Bundle\SeoBundle\Builder\MicroDataBuilder">
+            <argument id="knp_menu.helper" type="service"/>
+            <argument id="translator" type="service"/>
+            <argument id="request_stack" type="service"/>
+        </service>
         <service id="leogout_seo.translator" class="Leogout\Bundle\SeoBundle\Seo\SeoTranslator">
             <argument id="translator" type="service"/>
         </service>
@@ -31,9 +35,7 @@
             <argument id="leogout_seo.provider.generator" type="service"/>
             <argument id="leogout_seo.builder" type="service"/>
             <argument id="leogout_seo.image_builder" type="service"/>
-            <argument id="knp_menu.helper" type="service"/>
-            <argument id="request_stack" type="service"/>
-            <argument id="translator" type="service"/>
+            <argument id="leogout_seo.microdata_builder" type="service"/>
             <tag name="twig.extension"/>
         </service>
     </services>
