@@ -24,6 +24,7 @@ class LeogoutSeoExtension extends Extension
 
         $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
 
+        $this->loadIfConfigured('microdata', $container, $loader, $config);
         $this->loadIfConfigured('basic', $container, $loader, $config);
         $this->loadIfConfigured('og', $container, $loader, $config);
         $this->loadIfConfigured('twitter', $container, $loader, $config);
