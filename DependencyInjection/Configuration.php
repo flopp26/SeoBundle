@@ -38,7 +38,7 @@ class Configuration implements ConfigurationInterface
         $socialProfileNode->addDefaultsIfNotSet()
             ->children()
                 ->scalarNode('facebook_page')->end()
-                ->scalarNode('url')->end()
+                ->scalarNode('website_url')->end()
                 ->scalarNode('name')->end()
             ->end();
     }
