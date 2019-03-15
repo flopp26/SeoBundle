@@ -24,6 +24,7 @@ class MicroDataBuilder
     private $translator;
 
     private $socialProfil;
+    private $organization;
 
     public function __construct(KnpMenuHelper $menuHelper, TranslatorInterface $translator, RequestStack $requestStack)
     {
@@ -49,6 +50,24 @@ class MicroDataBuilder
         );
     }
 
+    public function getOrganization($key)
+    {
+        if(key_exists($key, $this->organization)){
+            return $this->organization[$key];
+        }
+
+        throw new \Exception(sprintf('this key %s not exist in organization', $key));
+    }
+
+    public function setOrganization($logo, $phone, $email)
+    {
+        $this->organization = array(
+            'logo' => $logo,
+            'phone' => $phone,
+            'email' => $email,
+        );
+    }
+
     public function generateSocialProfile()
     {
         $root = array(
@@ -62,6 +81,24 @@ class MicroDataBuilder
         );
 
         return '<script type="application/ld+json">' . json_encode($root) . '</script>';
+    }
+
+    public function generateOrganization()
+    {
+        $root = array(
+            "@context" => "https://schema.org",
+            "@type" => "Organization",
+            "url" => $this->requestStack->getCurrentRequest()->getSchemeAndHttpHost(),
+            "logo" => $this->getOrganization('logo'),
+            "contactPoint" => array(
+                "@type" => "ContactPoint",
+                "telephone" => $this->getOrganization('phone'),
+                "email" => $this->getOrganization('email'),
+                'contactType' => 'customer service'
+            )
+        );
+
+        return '<script type="application/ld+json">'. json_encode($root) .'</script>';
     }
 
     public function generateBreadcrumbMarkup()
