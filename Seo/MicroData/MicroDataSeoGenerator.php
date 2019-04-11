@@ -40,6 +40,13 @@ class MicroDataSeoGenerator extends AbstractSeoGenerator
 
         return $this;
     }
+    
+    public function setOffers($faq)
+    {
+        $this->microDataBuilder->setOffers($faq);
+
+        return $this;
+    }
 
     public function setSocialProfile($facebookPage, $name)
     {
