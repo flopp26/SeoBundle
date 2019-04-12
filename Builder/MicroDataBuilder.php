@@ -132,13 +132,13 @@ class MicroDataBuilder
                 "@type" => "Organization",
                 "@id" => "#organization",
                 "url" => $this->requestStack->getCurrentRequest()->getSchemeAndHttpHost(),
-                "name" => $this->getSocialProfile('name'),
-                "logo" => array(
-                    "@type" => "ImageObject",
-                    "url" => "https://mangools.com/mangools-logo.png",
-                    "width" => "700px",
-                    "height" => "235px"
-                )
+                "name" => $this->getSocialProfile('name')
+//                "logo" => array(
+//                    "@type" => "ImageObject",
+//                    "url" => "https://mangools.com/mangools-logo.png",
+//                    "width" => "700px",
+//                    "height" => "235px"
+//                )
             )
         );
 
