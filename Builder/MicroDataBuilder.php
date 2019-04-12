@@ -4,6 +4,7 @@ namespace Leogout\Bundle\SeoBundle\Builder;
 
 use Knp\Menu\Twig\Helper as KnpMenuHelper;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
@@ -27,6 +28,8 @@ class MicroDataBuilder
     private $socialProfil;
     private $organization;
     private $faq;
+    private $offers;
+
 
     public function __construct(KnpMenuHelper $menuHelper, TranslatorInterface $translator, RequestStack $requestStack, RouterInterface $router)
     {
@@ -81,11 +84,90 @@ class MicroDataBuilder
         $this->faq = $faq;
     }
 
+    public function getOffers()
+    {
+        return $this->offers;
+    }
+
+    public function setOffers($offers)
+    {
+        $this->offers = $offers;
+    }
+
+    public function generateOffers()
+    {
+        $offers = $this->offers;
+        if (count($offers['offers']) == 0) {
+            return array();
+        }
+
+        $root = array(
+            "@context" => "http://schema.org",
+            "@type" => "WebApplication",
+            "@id" => strtolower('energifylife-healing-care'),
+            "applicationCategory" => "HealthApplication",
+            "name" => $offers['seoName'],
+            "operatingSystem" => "all",
+            "browserRequirements" => "Requires Javascript and HTML5 support",
+            "url" => $this->router->generate('plan_list', [], UrlGeneratorInterface::ABSOLUTE_URL),
+//            "screenshot" => "https://kwfinder.com/images/kwfinder-big.png",
+//            "aggregateRating" => array(
+//                "@type" => "AggregateRating",
+//                "ratingValue" => "4.53",
+//                "reviewCount" => "3"
+//            ),
+            "offers" => array(
+                "@type" => "AggregateOffer",
+                "offeredBy" => array(
+                    "@type" => "Organization",
+                    "name" => $this->getSocialProfile('name')
+                ),
+                "highPrice" => $offers['highPrice'],
+                "lowPrice" => $offers['lowPrice'],
+                "offerCount" => count($offers['offers']),
+                "priceCurrency" => $offers['priceCurrency'],
+                "priceSpecification" => array()
+            ),
+            "creator" => array(
+                "@type" => "Organization",
+                "@id" => "#organization",
+                "url" => $this->requestStack->getCurrentRequest()->getSchemeAndHttpHost(),
+                "name" => $this->getSocialProfile('name'),
+                "logo" => array(
+                    "@type" => "ImageObject",
+                    "url" => "https://mangools.com/mangools-logo.png",
+                    "width" => "700px",
+                    "height" => "235px"
+                )
+            )
+        );
+
+        foreach ($offers['offers'] as $index => $offer) {
+
+            $root['offers']['priceSpecification'][$index] = array(
+                "@type" => "UnitPriceSpecification",
+                "price" => $offer['price'],
+                "priceCurrency" => $offer['priceCurrency'],
+                "name" => $offer['name']
+            );
+
+            if (isset($offer['unitCode'])) {
+                $root['offers']['priceSpecification'][$index]['referenceQuantity'] = array(
+                    "@type" => "QuantitativeValue",
+                    "value" => "1",
+                    "unitCode" => $offer['unitCode']
+                );
+            }
+        }
+
+        return $root;
+    }
+
     public function generateFaq()
     {
         $locale = $this->requestStack->getCurrentRequest()->getLocale();
         $faqUrl = $this->requestStack->getCurrentRequest()->getSchemeAndHttpHost() .
-                  $this->router->generate('faq_item', array('slug' => $this->getFaq()->translate($locale)->getSlug()));
+            $this->router->generate('faq_item', array('slug' => $this->getFaq()->translate($locale)->getSlug()));
 
         $root = array(
             '@context' => 'https://schema.org',
@@ -103,7 +185,7 @@ class MicroDataBuilder
                     "@type" => "Answer",
                     "text" => $this->getFaq()->translate($locale)->getContent(),
                     "dateCreated" => $this->getFaq()->getCreatedAt()->format('Y-m-d\TH:i:s\Z'),
-                    "upvoteCount"=> $this->getFaq()->getUpVoteCount(),
+                    "upvoteCount" => $this->getFaq()->getUpVoteCount(),
                     "url" => $faqUrl,
                     'author' => array(
                         "@type" => "Organization",
@@ -193,6 +275,10 @@ class MicroDataBuilder
 
         if (null != $this->faq) {
             $root[] = $this->generateFaq();
+        }
+
+        if (null != $this->offers) {
+            $root[] = $this->generateOffers();
         }
 
         return implode(PHP_EOL, array_map(function ($markup) {
