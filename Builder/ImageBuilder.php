@@ -20,6 +20,9 @@ use Symfony\Component\Routing\RouterInterface;
  */
 class ImageBuilder
 {
+    const TYPE_PAGE = 'pages';
+    const TYPE_ARTICLE = 'articles';
+
     /**
      * @var KernelInterface
      */
@@ -42,16 +45,16 @@ class ImageBuilder
         $this->assetsManager = $assetsManager;
     }
 
-    private function getImage($pageName)
+    private function getImage($pageName, $type)
     {
         $pageName = str_replace(array('_', '.'), '-', $pageName);
-        $folderImage = join(DIRECTORY_SEPARATOR, array($this->kernel->getProjectDir(), 'assets', 'images', 'pages', $pageName));
+        $folderImage = join(DIRECTORY_SEPARATOR, array($this->kernel->getProjectDir(), 'assets', 'images', $type, $pageName));
         $list = glob(sprintf('%s/%s.{jpg,gif,png}', $folderImage, 'seo-image'), GLOB_BRACE);
         if (count($list) > 0) {
             $imageSize = \getimagesize($list[0]);
             if ($request = $this->requestStack->getCurrentRequest()) {
                 return array(
-                    'url' => $request->getSchemeAndHttpHost() . $this->assetsManager->getUrl(join(DIRECTORY_SEPARATOR, array('images', 'pages', $pageName, basename($list[0])))),
+                    'url' => $request->getSchemeAndHttpHost() . $this->assetsManager->getUrl(join(DIRECTORY_SEPARATOR, array('images', $type, $pageName, basename($list[0])))),
                     'mime' => $imageSize['mime'],
                     'width' => $imageSize[0],
                     'height' => $imageSize[1]
@@ -62,8 +65,13 @@ class ImageBuilder
         return false;
     }
 
-    public function imagePageAvailable($pageName)
+    /**
+     * @param $id = nom de la page ou nom de l'article
+     * @param $type = TYPE_PAGE ou TYPE_ARTICLE
+     * @return array|bool
+     */
+    public function imagePageAvailable($id, $type)
     {
-        return $this->getImage($pageName);
+        return $this->getImage($id, $type);
     }
 }
