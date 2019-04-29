@@ -72,9 +72,45 @@ class SeoExtension extends \Twig_Extension
         return $this->tagBuilder->render();
     }
 
-    public function seoArticle($article)
+    public function seoArticle($article, $options = null)
     {
+        $generators = $this->generatorProvider->getAll();
+        foreach ($generators as $generator) {
 
+            if (method_exists($generator, 'setTitle')) {
+                $generator->setTitle($article->getTitle(), true);
+            }
+
+            if (method_exists($generator, 'setDescription')) {
+                $generator->setDescription($article->getSeoDescription());
+            }
+
+            if (method_exists($generator, 'setKeywords')) {
+                $generator->setKeywords(null);
+            }
+
+            if (method_exists($generator, 'setType')) {
+                $generator->setType('article');
+            }
+
+            if (method_exists($generator, 'setPublisher') && isset($options['publisher'])) {
+                $generator->setPublisher($options['publisher']);
+            }
+
+            /* on vérifie si l'image existe */
+            if ($imageDatas = $this->imageBuilder->imagePageAvailable($article->getId(), ImageBuilder::TYPE_ARTICLE)) {
+                if (method_exists($generator, 'setImage')) {
+                    $generator->setImage($imageDatas['url']);
+                    if (method_exists($generator, 'setImageType')) {
+                        $generator->setImageType($imageDatas['mime']);
+                        $generator->setImageWidth($imageDatas['width']);
+                        $generator->setImageHeight($imageDatas['height']);
+                    }
+                }
+            }
+        }
+
+        return $this->tagBuilder->render() . PHP_EOL . $this->microDataBuilder->render();
     }
 
     public function seoPage($pageName = null, $addSufix = true, $options = null)
@@ -85,7 +121,7 @@ class SeoExtension extends \Twig_Extension
             foreach ($generators as $generator) {
 
                 /* on vérifie si l'image existe */
-                if ($imageDatas = $this->imageBuilder->imagePageAvailable($pageName)) {
+                if ($imageDatas = $this->imageBuilder->imagePageAvailable($pageName, ImageBuilder::TYPE_PAGE)) {
                     if (method_exists($generator, 'setImage')) {
                         $generator->setImage($imageDatas['url']);
                         if (method_exists($generator, 'setImageType')) {
