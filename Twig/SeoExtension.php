@@ -98,13 +98,15 @@ class SeoExtension extends \Twig_Extension
             }
 
             /* on vérifie si l'image existe */
-            if ($imageDatas = $this->imageBuilder->imagePageAvailable($article->getId(), ImageBuilder::TYPE_ARTICLE)) {
-                if (method_exists($generator, 'setImage')) {
-                    $generator->setImage($imageDatas['url']);
-                    if (method_exists($generator, 'setImageType')) {
-                        $generator->setImageType($imageDatas['mime']);
-                        $generator->setImageWidth($imageDatas['width']);
-                        $generator->setImageHeight($imageDatas['height']);
+            if(method_exists($article, 'getKey')) {
+                if ($imageDatas = $this->imageBuilder->imagePageAvailable($article->getId(), ImageBuilder::TYPE_ARTICLE)) {
+                    if (method_exists($generator, 'setImage')) {
+                        $generator->setImage($imageDatas['url']);
+                        if (method_exists($generator, 'setImageType')) {
+                            $generator->setImageType($imageDatas['mime']);
+                            $generator->setImageWidth($imageDatas['width']);
+                            $generator->setImageHeight($imageDatas['height']);
+                        }
                     }
                 }
             }
