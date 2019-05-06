@@ -36,7 +36,7 @@ class MicroDataSeoConfigurator extends AbstractSeoConfigurator
         if ($this->hasConfig('organization')) {
             $organization = $this->getConfig('organization');
             if ($this->hasConfig('logo', $organization) && $this->hasConfig('phone', $organization) && $this->hasConfig('email', $organization)){
-                $generator->setOrganization($this->getConfig('logo', $organization), $this->getConfig('phone', $organization), $this->getConfig('email', $organization));
+                $generator->setOrganization($this->getConfig('logo', $organization), $this->getConfig('phone', $organization), $this->getConfig('email', $organization), $this->getConfig('brand', $organization));
             }
         }
     }
