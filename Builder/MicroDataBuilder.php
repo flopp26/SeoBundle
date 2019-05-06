@@ -3,6 +3,7 @@
 namespace Leogout\Bundle\SeoBundle\Builder;
 
 use Knp\Menu\Twig\Helper as KnpMenuHelper;
+use Leogout\Bundle\SeoBundle\Model\RatingBuilderInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\RouterInterface;
@@ -29,7 +30,7 @@ class MicroDataBuilder
     private $organization;
     private $faq;
     private $offers;
-
+    private $rating;
 
     public function __construct(KnpMenuHelper $menuHelper, TranslatorInterface $translator, RequestStack $requestStack, RouterInterface $router)
     {
@@ -65,12 +66,13 @@ class MicroDataBuilder
         throw new \Exception(sprintf('this key %s not exist in organization', $key));
     }
 
-    public function setOrganization($logo, $phone, $email)
+    public function setOrganization($logo, $phone, $email, $brand)
     {
         $this->organization = array(
             'logo' => $logo,
             'phone' => $phone,
             'email' => $email,
+            'brand' => $brand,
         );
     }
 
@@ -94,6 +96,11 @@ class MicroDataBuilder
         $this->offers = $offers;
     }
 
+    public function setRating($rating)
+    {
+        $this->rating = $rating;
+    }
+
     public function generateOffers()
     {
         $offers = $this->offers;
@@ -111,11 +118,11 @@ class MicroDataBuilder
             "browserRequirements" => "Requires Javascript and HTML5 support",
             "url" => $this->router->generate('plan_list', [], UrlGeneratorInterface::ABSOLUTE_URL),
 //            "screenshot" => "https://kwfinder.com/images/kwfinder-big.png",
-//            "aggregateRating" => array(
-//                "@type" => "AggregateRating",
-//                "ratingValue" => "4.53",
-//                "reviewCount" => "3"
-//            ),
+            "aggregateRating" => array(
+                "@type" => "AggregateRating",
+                "ratingValue" => $this->rating['rating_value'],
+                "reviewCount" => $this->rating['rating_count']
+            ),
             "offers" => array(
                 "@type" => "AggregateOffer",
                 "offeredBy" => array(
@@ -218,8 +225,15 @@ class MicroDataBuilder
         $root = array(
             "@context" => "https://schema.org",
             "@type" => "Organization",
+            'brand' => $this->getOrganization('brand'),
             "url" => $this->requestStack->getCurrentRequest()->getSchemeAndHttpHost(),
             "logo" => $this->getOrganization('logo'),
+            "aggregateRating" => array(
+                "@type" => "AggregateRating",
+                "ratingValue" => $this->rating['rating_value'],
+                "bestRating" => $this->rating['max_rating'],
+                "ratingCount" => $this->rating['rating_count']
+            ),
             "contactPoint" => array(
                 "@type" => "ContactPoint",
                 "telephone" => $this->getOrganization('phone'),
@@ -259,8 +273,10 @@ class MicroDataBuilder
     /**
      * @return string
      */
-    public function render()
+    public function render(RatingBuilderInterface $ratingBuilder)
     {
+        $this->rating = $ratingBuilder->getRatingData();
+
         $root = array();
 
         $root[] = $this->generateBreadcrumbMarkup();
