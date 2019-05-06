@@ -43,6 +43,7 @@ class Configuration implements ConfigurationInterface
         $organizationNode = $generalNode->children()->arrayNode('organization');
         $organizationNode->addDefaultsIfNotSet()
             ->children()
+            ->scalarNode('brand')->end()
             ->scalarNode('logo')->end()
             ->scalarNode('phone')->end()
             ->scalarNode('email')->end()
