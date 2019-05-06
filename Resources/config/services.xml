@@ -37,6 +37,7 @@
             <argument id="leogout_seo.builder" type="service"/>
             <argument id="leogout_seo.image_builder" type="service"/>
             <argument id="leogout_seo.microdata_builder" type="service"/>
+            <argument id="app.rating_builder" type="service"/>
             <tag name="twig.extension"/>
         </service>
     </services>
