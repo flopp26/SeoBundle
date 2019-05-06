@@ -5,6 +5,7 @@ namespace Leogout\Bundle\SeoBundle\Twig;
 use Leogout\Bundle\SeoBundle\Builder\ImageBuilder;
 use Leogout\Bundle\SeoBundle\Builder\MicroDataBuilder;
 use Leogout\Bundle\SeoBundle\Builder\TagBuilder;
+use Leogout\Bundle\SeoBundle\Model\RatingBuilderInterface;
 use Leogout\Bundle\SeoBundle\Provider\SeoGeneratorProvider;
 
 /**
@@ -35,17 +36,23 @@ class SeoExtension extends \Twig_Extension
     private $microDataBuilder;
 
     /**
+     * @var RatingBuilderInterface
+     */
+    private $ratingBuilder;
+
+    /**
      * SeoExtension constructor.
      *
      * @param SeoGeneratorProvider $generatorProvider
      * @param TagBuilder $tagBuilder
      */
-    public function __construct(SeoGeneratorProvider $generatorProvider, TagBuilder $tagBuilder, ImageBuilder $imageBuilder, MicroDataBuilder $microDataBuilder)
+    public function __construct(SeoGeneratorProvider $generatorProvider, TagBuilder $tagBuilder, ImageBuilder $imageBuilder, MicroDataBuilder $microDataBuilder, RatingBuilderInterface $ratingBuilder)
     {
         $this->tagBuilder = $tagBuilder;
         $this->imageBuilder = $imageBuilder;
         $this->generatorProvider = $generatorProvider;
         $this->microDataBuilder = $microDataBuilder;
+        $this->ratingBuilder = $ratingBuilder;
     }
 
     /**
@@ -112,7 +119,7 @@ class SeoExtension extends \Twig_Extension
             }
         }
 
-        return $this->tagBuilder->render() . PHP_EOL . $this->microDataBuilder->render();
+        return $this->tagBuilder->render() . PHP_EOL . $this->microDataBuilder->render($this->ratingBuilder);
     }
 
     public function seoPage($pageName = null, $addSufix = true, $options = null)
@@ -147,7 +154,7 @@ class SeoExtension extends \Twig_Extension
             }
         }
 
-        return $this->tagBuilder->render() . PHP_EOL . $this->microDataBuilder->render();
+        return $this->tagBuilder->render() . PHP_EOL . $this->microDataBuilder->render($this->ratingBuilder);
     }
 
     /**
