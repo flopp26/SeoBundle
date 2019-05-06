@@ -40,6 +40,13 @@ class MicroDataSeoGenerator extends AbstractSeoGenerator
 
         return $this;
     }
+
+    public function setRating($rating)
+    {
+        $this->microDataBuilder->setRating($rating);
+
+        return $this;
+    }
     
     public function setOffers($faq)
     {
