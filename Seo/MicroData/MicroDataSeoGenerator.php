@@ -62,9 +62,9 @@ class MicroDataSeoGenerator extends AbstractSeoGenerator
         return $this;
     }
 
-    public function setOrganization($logo, $phone, $email)
+    public function setOrganization($logo, $phone, $email, $brand)
     {
-        $this->microDataBuilder->setOrganization($logo, $phone, $email);
+        $this->microDataBuilder->setOrganization($logo, $phone, $email, $brand);
 
         return $this;
     }
