@@ -36,8 +36,11 @@ class Configuration implements ConfigurationInterface
         $socialProfileNode = $generalNode->children()->arrayNode('social_profil');
         $socialProfileNode->addDefaultsIfNotSet()
             ->children()
-                ->scalarNode('facebook_page')->end()
-                ->scalarNode('name')->end()
+                ->scalarNode('name')
+                ->end()
+                ->arrayNode('same_as')
+                    ->scalarPrototype()->end()
+                ->end()
             ->end();
 
         $organizationNode = $generalNode->children()->arrayNode('organization');
