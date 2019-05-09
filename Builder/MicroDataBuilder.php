@@ -298,7 +298,13 @@ class MicroDataBuilder
         }
 
         return implode(PHP_EOL, array_map(function ($markup) {
+
+            if($markup){
                 return '<script type="application/ld+json">' . json_encode($markup) . '</script>';
+            }
+
+            return null;
+
             }, $root)
         );
     }
