@@ -25,10 +25,10 @@ class MicroDataSeoConfigurator extends AbstractSeoConfigurator
 
         if ($this->hasConfig('social_profil')) {
             $socialProfil = $this->getConfig('social_profil');
-            if ($this->hasConfig('facebook_page', $socialProfil) && $this->hasConfig('name', $socialProfil)) {
+            if ($this->hasConfig('name', $socialProfil) && $this->hasConfig('same_as', $socialProfil)) {
                 $generator->setSocialProfile(
-                    $this->getConfig('facebook_page', $socialProfil),
-                    $this->getConfig('name', $socialProfil)
+                    $this->getConfig('name', $socialProfil),
+                    $this->getConfig('same_as', $socialProfil)
                 );
             }
         }
