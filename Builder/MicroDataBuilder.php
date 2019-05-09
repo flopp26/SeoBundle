@@ -49,11 +49,11 @@ class MicroDataBuilder
         throw new \Exception(sprintf('this key %s not exist in social profil', $key));
     }
 
-    public function setSocialProfile($facebookPage, $name)
+    public function setSocialProfile($name, array $sameAs)
     {
         $this->socialProfil = array(
-            'facebookPage' => $facebookPage,
-            'name' => $name
+            'name' => $name,
+            'sameAs' => $sameAs
         );
     }
 
@@ -212,9 +212,7 @@ class MicroDataBuilder
             "@type" => "Person",
             "name" => $this->getSocialProfile('name'),
             "url" => $this->requestStack->getCurrentRequest()->getSchemeAndHttpHost(),
-            "sameAs" => array(
-                $this->getSocialProfile('facebookPage')
-            )
+            "sameAs" => $this->getSocialProfile('sameAs')
         );
 
         return $root;
@@ -280,6 +278,7 @@ class MicroDataBuilder
         $root = array();
 
         $root[] = $this->generateBreadcrumbMarkup();
+
 
         if (null != $this->socialProfil) {
             $root[] = $this->generateSocialProfile();
