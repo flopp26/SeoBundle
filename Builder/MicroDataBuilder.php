@@ -178,26 +178,15 @@ class MicroDataBuilder
 
         $root = array(
             '@context' => 'https://schema.org',
-            "@type" => "QAPage",
+            "@type" => "FAQPage",
             "mainEntity" => array(
                 "@type" => "Question",
                 "name" => $this->getFaq()->translate($locale)->getTitle(),
-                "answerCount" => 1,
-                "dateCreated" => $this->getFaq()->getCreatedAt()->format('Y-m-d\TH:i:s\Z'),
-                'author' => array(
-                    "@type" => "Organization",
-                    "name" => $this->getSocialProfile('name')
-                ),
                 "acceptedAnswer" => array(
                     "@type" => "Answer",
                     "text" => $this->getFaq()->translate($locale)->getContent(),
-                    "dateCreated" => $this->getFaq()->getCreatedAt()->format('Y-m-d\TH:i:s\Z'),
-                    "upvoteCount" => $this->getFaq()->getUpVoteCount(),
-                    "url" => $faqUrl,
-                    'author' => array(
-                        "@type" => "Organization",
-                        "name" => $this->getSocialProfile('name')
-                    )
+                    "downvoteCount" => $this->getFaq()->getDownVoteCount(),
+                    "upvoteCount" => $this->getFaq()->getUpVoteCount()
                 )
             )
         );
