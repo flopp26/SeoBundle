@@ -49,8 +49,13 @@ class ImageBuilder
     {
         $pageName = str_replace(array('_', '.'), '-', $pageName);
         $folderImage = join(DIRECTORY_SEPARATOR, array($this->kernel->getProjectDir(), 'assets', 'images', $type, $pageName));
-        $list = glob(sprintf('%s/%s.{jpg,gif,png}', $folderImage, 'seo-image'), GLOB_BRACE);
+        $list = glob(sprintf('%s/%s.{jpg,gif,png}', $folderImage, 'seo-image-' . $this->requestStack->getCurrentRequest()->getLocale()), GLOB_BRACE);
+        if (count($list) == 0) {
+            $list = glob(sprintf('%s/%s.{jpg,gif,png}', $folderImage, 'seo-image'), GLOB_BRACE);
+        }
+
         if (count($list) > 0) {
+
             $imageSize = \getimagesize($list[0]);
             if ($request = $this->requestStack->getCurrentRequest()) {
                 return array(
