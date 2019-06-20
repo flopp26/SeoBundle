@@ -116,7 +116,7 @@ class MicroDataBuilder
             "name" => $offers['seoName'],
             "operatingSystem" => "all",
             "browserRequirements" => "Requires Javascript and HTML5 support",
-            "url" => $this->router->generate('plan_list', [], UrlGeneratorInterface::ABSOLUTE_URL),
+            "url" => $offers['url'],
 //            "screenshot" => "https://kwfinder.com/images/kwfinder-big.png",
             "aggregateRating" => array(
                 "@type" => "AggregateRating",
