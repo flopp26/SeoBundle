@@ -6,11 +6,6 @@ use Leogout\Bundle\SeoBundle\Exception\InvalidSeoGeneratorException;
 use Leogout\Bundle\SeoBundle\Seo\AbstractSeoConfigurator;
 use Leogout\Bundle\SeoBundle\Seo\AbstractSeoGenerator;
 
-/**
- * Description of BasicSeoConfigurator.
- *
- * @author: leogout
- */
 class MicroDataSeoConfigurator extends AbstractSeoConfigurator
 {
     /**
@@ -22,21 +17,16 @@ class MicroDataSeoConfigurator extends AbstractSeoConfigurator
             throw new InvalidSeoGeneratorException(__CLASS__, MicroDataSeoGenerator::class, get_class($generator));
         }
 
-
-        if ($this->hasConfig('social_profil')) {
-            $socialProfil = $this->getConfig('social_profil');
-            if ($this->hasConfig('name', $socialProfil) && $this->hasConfig('same_as', $socialProfil)) {
-                $generator->setSocialProfile(
-                    $this->getConfig('name', $socialProfil),
-                    $this->getConfig('same_as', $socialProfil)
-                );
-            }
-        }
-
         if ($this->hasConfig('organization')) {
             $organization = $this->getConfig('organization');
-            if ($this->hasConfig('logo', $organization) && $this->hasConfig('phone', $organization) && $this->hasConfig('email', $organization)){
-                $generator->setOrganization($this->getConfig('logo', $organization), $this->getConfig('phone', $organization), $this->getConfig('email', $organization), $this->getConfig('brand', $organization));
+            if ($this->hasConfig('logo', $organization) && $this->hasConfig('phone', $organization) && $this->hasConfig('email', $organization) && $this->hasConfig('name', $organization) && $this->hasConfig('same_as', $organization)) {
+                $generator->setOrganization(
+                    $this->getConfig('logo', $organization),
+                    $this->getConfig('phone', $organization),
+                    $this->getConfig('email', $organization),
+                    $this->getConfig('name', $organization),
+                    $this->getConfig('same_as', $organization)
+                );
             }
         }
     }
