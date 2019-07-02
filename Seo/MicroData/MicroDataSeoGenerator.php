@@ -55,16 +55,9 @@ class MicroDataSeoGenerator extends AbstractSeoGenerator
         return $this;
     }
 
-    public function setSocialProfile($name, array $sameAs)
+    public function setOrganization($logo, $phone, $email, $name, $sameAs)
     {
-        $this->microDataBuilder->setSocialProfile($name, $sameAs);
-
-        return $this;
-    }
-
-    public function setOrganization($logo, $phone, $email, $brand)
-    {
-        $this->microDataBuilder->setOrganization($logo, $phone, $email, $brand);
+        $this->microDataBuilder->setOrganization($logo, $phone, $email, $name, $sameAs);
 
         return $this;
     }
