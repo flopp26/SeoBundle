@@ -25,8 +25,7 @@ class MicroDataBuilder
      * @var TranslatorInterface
      */
     private $translator;
-
-    private $socialProfil;
+    
     private $organization;
     private $faq;
     private $offers;
@@ -40,23 +39,6 @@ class MicroDataBuilder
         $this->router = $router;
     }
 
-    public function getSocialProfile($key)
-    {
-        if (key_exists($key, $this->socialProfil)) {
-            return $this->socialProfil[$key];
-        }
-
-        throw new \Exception(sprintf('this key %s not exist in social profil', $key));
-    }
-
-    public function setSocialProfile($name, array $sameAs)
-    {
-        $this->socialProfil = array(
-            'name' => $name,
-            'sameAs' => $sameAs
-        );
-    }
-
     public function getOrganization($key)
     {
         if (key_exists($key, $this->organization)) {
@@ -66,13 +48,14 @@ class MicroDataBuilder
         throw new \Exception(sprintf('this key %s not exist in organization', $key));
     }
 
-    public function setOrganization($logo, $phone, $email, $brand)
+    public function setOrganization($logo, $phone, $email, $name, array $sameAs)
     {
         $this->organization = array(
             'logo' => $logo,
             'phone' => $phone,
             'email' => $email,
-            'brand' => $brand,
+            'name' => $name,
+            'sameAs' => $sameAs
         );
     }
 
@@ -127,7 +110,7 @@ class MicroDataBuilder
                 "@type" => "AggregateOffer",
                 "offeredBy" => array(
                     "@type" => "Organization",
-                    "name" => $this->getSocialProfile('name')
+                    "name" => $this->getOrganization('name')
                 ),
                 "highPrice" => $offers['highPrice'],
                 "lowPrice" => $offers['lowPrice'],
@@ -139,7 +122,7 @@ class MicroDataBuilder
                 "@type" => "Organization",
                 "@id" => "#organization",
                 "url" => $this->requestStack->getCurrentRequest()->getSchemeAndHttpHost(),
-                "name" => $this->getSocialProfile('name')
+                "name" => $this->getOrganization('name')
 //                "logo" => array(
 //                    "@type" => "ImageObject",
 //                    "url" => "https://mangools.com/mangools-logo.png",
@@ -194,25 +177,12 @@ class MicroDataBuilder
         return $root;
     }
 
-    public function generateSocialProfile()
-    {
-        $root = array(
-            '@context' => 'https://schema.org',
-            "@type" => "Person",
-            "name" => $this->getSocialProfile('name'),
-            "url" => $this->requestStack->getCurrentRequest()->getSchemeAndHttpHost(),
-            "sameAs" => $this->getSocialProfile('sameAs')
-        );
-
-        return $root;
-    }
-
     public function generateOrganization()
     {
         $root = array(
             "@context" => "https://schema.org",
             "@type" => "Organization",
-            'brand' => $this->getOrganization('brand'),
+            'name' => $this->getOrganization('name'),
             "url" => $this->requestStack->getCurrentRequest()->getSchemeAndHttpHost(),
             "logo" => $this->getOrganization('logo'),
             "aggregateRating" => array(
@@ -226,7 +196,8 @@ class MicroDataBuilder
                 "telephone" => $this->getOrganization('phone'),
                 "email" => $this->getOrganization('email'),
                 'contactType' => 'customer service'
-            )
+            ),
+            "sameAs" => $this->getOrganization('sameAs')
         );
 
         return $root;
@@ -267,11 +238,6 @@ class MicroDataBuilder
         $root = array();
 
         $root[] = $this->generateBreadcrumbMarkup();
-
-
-        if (null != $this->socialProfil) {
-            $root[] = $this->generateSocialProfile();
-        }
 
         if (null != $this->organization) {
             $root[] = $this->generateOrganization();
