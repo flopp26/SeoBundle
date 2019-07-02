@@ -25,9 +25,9 @@ class MicroDataBuilder
      * @var TranslatorInterface
      */
     private $translator;
-    
+
     private $organization;
-    private $faq;
+    private $faqs;
     private $offers;
     private $rating;
 
@@ -59,14 +59,14 @@ class MicroDataBuilder
         );
     }
 
-    public function getFaq()
+    public function getFaqs()
     {
-        return $this->faq;
+        return $this->faqs;
     }
 
-    public function setFaq($faq)
+    public function setFaqs(array $faqs)
     {
-        $this->faq = $faq;
+        $this->faqs = $faqs;
     }
 
     public function getOffers()
@@ -153,26 +153,25 @@ class MicroDataBuilder
         return $root;
     }
 
-    public function generateFaq()
-    {
-        $locale = $this->requestStack->getCurrentRequest()->getLocale();
-        $faqUrl = $this->requestStack->getCurrentRequest()->getSchemeAndHttpHost() .
-            $this->router->generate('faq_item', array('slug' => $this->getFaq()->translate($locale)->getSlug()));
-
+    public function generateFaqs()
+   {
         $root = array(
             '@context' => 'https://schema.org',
             "@type" => "FAQPage",
-            "mainEntity" => array(
+            "mainEntity" => array()
+        );
+
+        foreach ($this->getFaqs() as $faq){
+
+            $root['mainEntity'][] = array(
                 "@type" => "Question",
-                "name" => $this->getFaq()->translate($locale)->getTitle(),
+                "name" => $faq['question'],
                 "acceptedAnswer" => array(
                     "@type" => "Answer",
-                    "text" => $this->getFaq()->translate($locale)->getContent(),
-                    "downvoteCount" => $this->getFaq()->getDownVoteCount(),
-                    "upvoteCount" => $this->getFaq()->getUpVoteCount()
+                    'text' => $faq['answer']
                 )
-            )
-        );
+            );
+        }
 
         return $root;
     }
@@ -243,8 +242,8 @@ class MicroDataBuilder
             $root[] = $this->generateOrganization();
         }
 
-        if (null != $this->faq) {
-            $root[] = $this->generateFaq();
+        if (null != $this->faqs) {
+            $root[] = $this->generateFaqs();
         }
 
         if (null != $this->offers) {
