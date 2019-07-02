@@ -33,23 +33,17 @@ class Configuration implements ConfigurationInterface
     protected function configureMicroDataTree(ArrayNodeDefinition $rootNode)
     {
         $generalNode = $rootNode->children()->arrayNode('microdata');
-        $socialProfileNode = $generalNode->children()->arrayNode('social_profil');
-        $socialProfileNode->addDefaultsIfNotSet()
-            ->children()
-                ->scalarNode('name')
-                ->end()
-                ->arrayNode('same_as')
-                    ->scalarPrototype()->end()
-                ->end()
-            ->end();
 
         $organizationNode = $generalNode->children()->arrayNode('organization');
         $organizationNode->addDefaultsIfNotSet()
             ->children()
-            ->scalarNode('brand')->end()
+            ->scalarNode('name')->end()
             ->scalarNode('logo')->end()
             ->scalarNode('phone')->end()
             ->scalarNode('email')->end()
+            ->arrayNode('same_as')
+                ->scalarPrototype()->end()
+            ->end()
             ->end();
     }
 
