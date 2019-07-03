@@ -41,6 +41,11 @@ class MicroDataSeoGenerator extends AbstractSeoGenerator
         return $this;
     }
 
+    public function setEvent($event)
+    {
+        $this->microDataBuilder->setEvent($event);
+    }
+
     public function setRating($rating)
     {
         $this->microDataBuilder->setRating($rating);
