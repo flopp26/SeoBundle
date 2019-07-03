@@ -28,6 +28,7 @@ class MicroDataBuilder
 
     private $organization;
     private $faqs;
+    private $events = array();
     private $offers;
     private $rating;
 
@@ -67,6 +68,16 @@ class MicroDataBuilder
     public function setFaqs(array $faqs)
     {
         $this->faqs = $faqs;
+    }
+
+    public function setEvent($event)
+    {
+        $this->events[] = $event;
+    }
+
+    public function getEvents()
+    {
+        return $this->events;
     }
 
     public function getOffers()
@@ -176,6 +187,48 @@ class MicroDataBuilder
         return $root;
     }
 
+    public function generateEvents()
+    {
+
+        $root = array();
+        foreach ($this->events as $event){
+            $root[] = array(
+                '@context' => 'https://schema.org',
+                "@type" => "Event",
+                "name" => $event['name'],
+                "description" => $event['description'],
+                "startDate" => "2025-01-01T19:30",
+                "endDate" => "2025-01-01T23:00",
+                "location" => array(
+                    "@type" => "Place",
+                    "name" => "Santa Clara City Library, Central Park Library",
+                    "address" => array(
+                        "@type" => "PostalAddress",
+                        "streetAddress" => "2635 Homestead Rd",
+                        "addressLocality" => "Santa Clara",
+                        "postalCode" => "95051",
+                        "addressRegion" => "CA",
+                        "addressCountry" => "US"
+                    )
+                ),
+                "image" => array(
+                    "https://example.com/photos/1x1/photo.jpg",
+                    "https://example.com/photos/4x3/photo.jpg",
+                    "https://example.com/photos/16x9/photo.jpg"
+                ),
+
+                "offers" => array(
+                    "@type" => "Offer",
+                    "url" => "https://www.example.com/event_offer/12345_201803180430",
+                    "price" => "30",
+                    "priceCurrency" => "USD",
+                )
+            );
+        }
+
+        return $root;
+    }
+
     public function generateOrganization()
     {
         $root = array(
@@ -240,6 +293,10 @@ class MicroDataBuilder
 
         if (null != $this->organization) {
             $root[] = $this->generateOrganization();
+        }
+
+        if (null != $this->events) {
+            $root[] = $this->generateEvents();
         }
 
         if (null != $this->faqs) {
