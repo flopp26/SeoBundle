@@ -187,9 +187,12 @@ class MicroDataBuilder
         return $root;
     }
 
+    /**
+     * https://schema.org/Event
+     * @return array
+     */
     public function generateEvents()
     {
-
         $root = array();
         foreach ($this->events as $event){
             $root[] = array(
@@ -197,31 +200,27 @@ class MicroDataBuilder
                 "@type" => "Event",
                 "name" => $event['name'],
                 "description" => $event['description'],
-                "startDate" => "2025-01-01T19:30",
-                "endDate" => "2025-01-01T23:00",
+                "startDate" => $event['startDate'],
+                "endDate" => $event['endDate'],
+                'isAccessibleForFree' => ( $event['price'] > 0 ? false : true ),
                 "location" => array(
                     "@type" => "Place",
-                    "name" => "Santa Clara City Library, Central Park Library",
+                    "name" => "Accesssible à distance",
                     "address" => array(
                         "@type" => "PostalAddress",
-                        "streetAddress" => "2635 Homestead Rd",
-                        "addressLocality" => "Santa Clara",
-                        "postalCode" => "95051",
-                        "addressRegion" => "CA",
-                        "addressCountry" => "US"
+                        //"streetAddress" => "2635 Homestead Rd",
+                       "addressLocality" => "Paris",
+                        //"postalCode" => "95051",
+                       // "addressRegion" => "CA",
+                        //"addressCountry" => "US"
                     )
                 ),
-                "image" => array(
-                    "https://example.com/photos/1x1/photo.jpg",
-                    "https://example.com/photos/4x3/photo.jpg",
-                    "https://example.com/photos/16x9/photo.jpg"
-                ),
-
+                "image" => $event['images'],
                 "offers" => array(
                     "@type" => "Offer",
-                    "url" => "https://www.example.com/event_offer/12345_201803180430",
-                    "price" => "30",
-                    "priceCurrency" => "USD",
+                    "url" => $event['url'],
+                    "price" => $event['price'],
+                    "priceCurrency" => $event['priceCurrency']
                 )
             );
         }
