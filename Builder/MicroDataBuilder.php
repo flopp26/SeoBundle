@@ -203,8 +203,6 @@ class MicroDataBuilder
                 "startDate" => $event['startDate'],
                 "endDate" => $event['endDate'],
                 'duration' => sprintf('PT%sM', $event['duration']),
-                "validFrom" => $event['validFrom'],
-                "availability"=> "https://schema.org/InStock",
                 'isAccessibleForFree' => ( $event['price'] > 0 ? false : true ),
                 "location" => array(
                     "@type" => "Place",
@@ -219,7 +217,9 @@ class MicroDataBuilder
                     "@type" => "Offer",
                     "url" => $event['url'],
                     "price" => $event['price'],
-                    "priceCurrency" => $event['priceCurrency']
+                    "priceCurrency" => $event['priceCurrency'],
+                    "validFrom" => $event['validFrom'],
+                    "availability"=> "https://schema.org/InStock",
                 ),
                 'performer' => array(
                     "@type" => "Person",
