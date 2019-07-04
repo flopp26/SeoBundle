@@ -202,17 +202,16 @@ class MicroDataBuilder
                 "description" => $event['description'],
                 "startDate" => $event['startDate'],
                 "endDate" => $event['endDate'],
+                'duration' => sprintf('PT%sM', $event['duration']),
+                "validFrom" => $event['validFrom'],
+                "availability"=> "https://schema.org/InStock",
                 'isAccessibleForFree' => ( $event['price'] > 0 ? false : true ),
                 "location" => array(
                     "@type" => "Place",
                     "name" => "Accesssible à distance",
                     "address" => array(
                         "@type" => "PostalAddress",
-                        //"streetAddress" => "2635 Homestead Rd",
                        "addressLocality" => "Paris",
-                        //"postalCode" => "95051",
-                       // "addressRegion" => "CA",
-                        //"addressCountry" => "US"
                     )
                 ),
                 "image" => $event['images'],
@@ -221,6 +220,10 @@ class MicroDataBuilder
                     "url" => $event['url'],
                     "price" => $event['price'],
                     "priceCurrency" => $event['priceCurrency']
+                ),
+                'performer' => array(
+                    "@type" => "Person",
+                    "name" => $event['performerName']
                 )
             );
         }
