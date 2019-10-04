@@ -141,6 +141,8 @@ class SeoExtension extends \Twig_Extension
                     }
                 }
 
+                $generator->setPage($pageName, $addSufix);
+                
                 if ($options) {
                     foreach ($options as $method => $value) {
                         $methodName = sprintf('set%s', ucfirst($method));
@@ -148,9 +150,7 @@ class SeoExtension extends \Twig_Extension
                             $generator->$methodName($value);
                         }
                     }
-                }
-
-                $generator->setPage($pageName, $addSufix);
+                } 
             }
         }
 
