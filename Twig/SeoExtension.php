@@ -85,7 +85,7 @@ class SeoExtension extends \Twig_Extension
         foreach ($generators as $generator) {
 
             if (method_exists($generator, 'setTitle')) {
-                $generator->setTitle($article->getTitle(), true);
+                $generator->setTitle($article->getSeoTitle(), true);
             }
 
             if (method_exists($generator, 'setDescription')) {
