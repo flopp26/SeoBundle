@@ -22,6 +22,7 @@ class ImageBuilder
 {
     const TYPE_PAGE = 'pages';
     const TYPE_ARTICLE = 'articles';
+    const TYPE_ARTICLE_CATEGORY = 'articles-category';
 
     /**
      * @var KernelInterface
