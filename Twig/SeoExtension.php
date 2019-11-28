@@ -62,6 +62,7 @@ class SeoExtension extends \Twig_Extension
     {
         return array(
             new \Twig_SimpleFunction('seo_article', [$this, 'seoArticle'], ['is_safe' => ['html']]),
+            new \Twig_SimpleFunction('seo_article_category', [$this, 'seoArticleCategory'], ['is_safe' => ['html']]),
             new \Twig_SimpleFunction('seo_page', [$this, 'seoPage'], ['is_safe' => ['html']]),
             new \Twig_SimpleFunction('leogout_seo', [$this, 'seo'], ['is_safe' => ['html']]),
         );
@@ -79,7 +80,12 @@ class SeoExtension extends \Twig_Extension
         return $this->tagBuilder->render();
     }
 
-    public function seoArticle($article, $options = null)
+    public function seoArticleCategory($category, $options = null)
+    {
+        return $this->seoArticle($category, $options, ImageBuilder::TYPE_ARTICLE_CATEGORY);
+    }
+
+    public function seoArticle($article, $options = null, $type = ImageBuilder::TYPE_ARTICLE)
     {
         $generators = $this->generatorProvider->getAll();
         foreach ($generators as $generator) {
@@ -106,7 +112,8 @@ class SeoExtension extends \Twig_Extension
 
             /* on vérifie si l'image existe */
             if(method_exists($article, 'getKey')) {
-                if ($imageDatas = $this->imageBuilder->imagePageAvailable($article->getId(), ImageBuilder::TYPE_ARTICLE)) {
+
+                if ($imageDatas = $this->imageBuilder->imagePageAvailable($article->getKey(), $type)) {
                     if (method_exists($generator, 'setImage')) {
                         $generator->setImage($imageDatas['url']);
                         if (method_exists($generator, 'setImageType')) {
