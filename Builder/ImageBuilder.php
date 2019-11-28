@@ -46,21 +46,28 @@ class ImageBuilder
         $this->assetsManager = $assetsManager;
     }
 
-    private function getImage($pageName, $type)
+    private function getImage($pageName, $type, $firstRecursive = true)
     {
         $pageName = str_replace(array('_', '.'), '-', $pageName);
         $folderImage = join(DIRECTORY_SEPARATOR, array($this->kernel->getProjectDir(), 'assets', 'images', $type, $pageName));
         $list = glob(sprintf('%s/%s.{jpg,gif,png}', $folderImage, 'seo-image-' . $this->requestStack->getCurrentRequest()->getLocale()), GLOB_BRACE);
+
+        // recherche sans la langue
         if (count($list) == 0) {
             $list = glob(sprintf('%s/%s.{jpg,gif,png}', $folderImage, 'seo-image'), GLOB_BRACE);
         }
 
-        if (count($list) > 0) {
+        // get default image
+        if ($firstRecursive && count($list) == 0) {
+            return $this->getImage(null, $type, false);
+        }
 
+        if (count($list) > 0) {
             $imageSize = \getimagesize($list[0]);
             if ($request = $this->requestStack->getCurrentRequest()) {
+                $url =  $this->assetsManager->getUrl(join(DIRECTORY_SEPARATOR, array('images', $type, $pageName, basename($list[0]))));
                 return array(
-                    'url' => $request->getSchemeAndHttpHost() . $this->assetsManager->getUrl(join(DIRECTORY_SEPARATOR, array('images', $type, $pageName, basename($list[0])))),
+                    'url' => $request->getSchemeAndHttpHost() . str_replace('//', '/', $url),
                     'mime' => $imageSize['mime'],
                     'width' => $imageSize[0],
                     'height' => $imageSize[1]
