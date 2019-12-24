@@ -271,7 +271,7 @@ class MicroDataBuilder
                 $root['itemListElement'][] = array(
                     '@type' => 'ListItem',
                     'position' => $index + 1,
-                    'name' => $this->translator->trans($breadcrumb['item']->getName()),
+                    'name' => strtolower($this->translator->trans($breadcrumb['item']->getName())),
                     'item' => $this->requestStack->getCurrentRequest()->getSchemeAndHttpHost() . $breadcrumb['item']->getUri()
                 );
             }
