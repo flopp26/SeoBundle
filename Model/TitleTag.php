@@ -48,7 +48,9 @@ class TitleTag implements RenderableInterface
     public function setContent($content)
     {        
         $title = (string)$this->translator->trans((string)$content);
+        // finalement, pas sur que ca me plaise.
         $this->content = mb_convert_case($title, MB_CASE_TITLE, "UTF-8");
+        $this->content = $title;
 
         return $this;
     }
