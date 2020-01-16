@@ -5,7 +5,6 @@ namespace Leogout\Bundle\SeoBundle\Builder;
 use Knp\Menu\Twig\Helper as KnpMenuHelper;
 use Leogout\Bundle\SeoBundle\Model\RatingBuilderInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
@@ -27,6 +26,7 @@ class MicroDataBuilder
     private $translator;
 
     private $organization;
+    private $product;
     private $faqs;
     private $events = array();
     private $offers;
@@ -58,6 +58,16 @@ class MicroDataBuilder
             'name' => $name,
             'sameAs' => $sameAs
         );
+    }
+
+    public function getProduct()
+    {
+        return $this->product;
+    }
+
+    public function setProduct($product)
+    {
+        $this->product = $product;
     }
 
     public function getFaqs()
@@ -165,14 +175,14 @@ class MicroDataBuilder
     }
 
     public function generateFaqs()
-   {
+    {
         $root = array(
             '@context' => 'https://schema.org',
             "@type" => "FAQPage",
             "mainEntity" => array()
         );
 
-        foreach ($this->getFaqs() as $faq){
+        foreach ($this->getFaqs() as $faq) {
 
             $root['mainEntity'][] = array(
                 "@type" => "Question",
@@ -187,6 +197,45 @@ class MicroDataBuilder
         return $root;
     }
 
+    public function generateProduct()
+    {
+        $product = $this->getProduct();
+
+        $image;
+        if ($images = $product->getImages()) {
+            $image = $images[0];
+        }
+
+        $root = array(
+            '@context' => 'https://schema.org',
+            "@type" => "Product",
+            "name" => $product->getName(),
+            "description" => $product->getDescription(),
+            'image' => $image,
+            'offers' => array(
+                "@type" => "Offer",
+                'url' => $product->getUrl(),
+                'price' => $product->getPrice(),
+                'priceCurrency' => 'EUR',
+                'availability' => 'http://schema.org/InStock',
+                "inventoryLevel" => array(
+                    "@type" => "QuantitativeValue",
+                    "value" => "Infinity"
+                )
+            )
+        );
+
+        if ($product->getRating()) {
+            $root["aggregateRating"] = array(
+                "@type" => "AggregateRating",
+                "ratingValue" => $product->getRatingData('rating_value'),
+                "reviewCount" => $product->getRatingData('rating_count')
+            );
+        }
+
+        return $root;
+    }
+
     /**
      * https://schema.org/Event
      * @return array
@@ -194,7 +243,7 @@ class MicroDataBuilder
     public function generateEvents()
     {
         $root = array();
-        foreach ($this->events as $event){
+        foreach ($this->events as $event) {
             $root[] = array(
                 '@context' => 'https://schema.org',
                 "@type" => "Event",
@@ -203,13 +252,13 @@ class MicroDataBuilder
                 "startDate" => $event['startDate'],
                 "endDate" => $event['endDate'],
                 'duration' => sprintf('PT%sM', $event['duration']),
-                'isAccessibleForFree' => ( $event['price'] > 0 ? false : true ),
+                'isAccessibleForFree' => ($event['price'] > 0 ? false : true),
                 "location" => array(
                     "@type" => "Place",
                     "name" => "Accesssible à distance",
                     "address" => array(
                         "@type" => "PostalAddress",
-                       "addressLocality" => "Paris",
+                        "addressLocality" => "Paris",
                     )
                 ),
                 "image" => $event['images'],
@@ -219,7 +268,7 @@ class MicroDataBuilder
                     "price" => $event['price'],
                     "priceCurrency" => $event['priceCurrency'],
                     "validFrom" => $event['validFrom'],
-                    "availability"=> "https://schema.org/InStock",
+                    "availability" => "https://schema.org/InStock",
                 ),
                 'performer' => array(
                     "@type" => "Person",
@@ -309,13 +358,17 @@ class MicroDataBuilder
             $root[] = $this->generateOffers();
         }
 
+        if (null != $this->product) {
+            $root[] = $this->generateProduct();
+        }
+
         return implode(PHP_EOL, array_map(function ($markup) {
 
-            if($markup){
-                return '<script type="application/ld+json">' . json_encode($markup) . '</script>';
-            }
+                if ($markup) {
+                    return '<script type="application/ld+json">' . json_encode($markup) . '</script>';
+                }
 
-            return null;
+                return null;
 
             }, $root)
         );
