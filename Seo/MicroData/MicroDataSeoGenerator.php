@@ -34,6 +34,13 @@ class MicroDataSeoGenerator extends AbstractSeoGenerator
         $this->microDataBuilder = $microDataBuilder;
     }
 
+    public function setProduct($product)
+    {
+        $this->microDataBuilder->setProduct($product);
+
+        return $this;
+    }
+    
     public function setFaqs(array $faqs)
     {
         $this->microDataBuilder->setFaqs($faqs);
