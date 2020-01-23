@@ -225,7 +225,7 @@ class MicroDataBuilder
             )
         );
 
-        if ($product->getRating()) {
+        if ($product->getRating() && $product->getRatingData('rating_value')) {
             $root["aggregateRating"] = array(
                 "@type" => "AggregateRating",
                 "ratingValue" => $product->getRatingData('rating_value'),
