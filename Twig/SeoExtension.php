@@ -7,13 +7,14 @@ use Leogout\Bundle\SeoBundle\Builder\MicroDataBuilder;
 use Leogout\Bundle\SeoBundle\Builder\TagBuilder;
 use Leogout\Bundle\SeoBundle\Model\RatingBuilderInterface;
 use Leogout\Bundle\SeoBundle\Provider\SeoGeneratorProvider;
+use Twig\Extension\AbstractExtension;
 
 /**
  * Description of SeoExtension.
  *
  * @author: leogout
  */
-class SeoExtension extends \Twig_Extension
+class SeoExtension extends AbstractExtension
 {
     /**
      * @var TagBuilder
