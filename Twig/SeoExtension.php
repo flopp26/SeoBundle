@@ -8,6 +8,7 @@ use Leogout\Bundle\SeoBundle\Builder\TagBuilder;
 use Leogout\Bundle\SeoBundle\Model\RatingBuilderInterface;
 use Leogout\Bundle\SeoBundle\Provider\SeoGeneratorProvider;
 use Twig\Extension\AbstractExtension;
+use Twig\TwigFunction;
 
 /**
  * Description of SeoExtension.
@@ -62,10 +63,10 @@ class SeoExtension extends AbstractExtension
     public function getFunctions()
     {
         return array(
-            new \Twig_SimpleFunction('seo_article', [$this, 'seoArticle'], ['is_safe' => ['html']]),
-            new \Twig_SimpleFunction('seo_article_category', [$this, 'seoArticleCategory'], ['is_safe' => ['html']]),
-            new \Twig_SimpleFunction('seo_page', [$this, 'seoPage'], ['is_safe' => ['html']]),
-            new \Twig_SimpleFunction('leogout_seo', [$this, 'seo'], ['is_safe' => ['html']]),
+            new TwigFunction('seo_article', [$this, 'seoArticle'], ['is_safe' => ['html']]),
+            new TwigFunction('seo_article_category', [$this, 'seoArticleCategory'], ['is_safe' => ['html']]),
+            new TwigFunction('seo_page', [$this, 'seoPage'], ['is_safe' => ['html']]),
+            new TwigFunction('leogout_seo', [$this, 'seo'], ['is_safe' => ['html']]),
         );
     }
 
